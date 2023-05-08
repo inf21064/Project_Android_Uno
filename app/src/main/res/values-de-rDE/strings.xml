@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="welcome_text">hallo</string>
+    <string name="app_name">Virtuelles UNO Spiel</string>
+    <string name="hello_blank_fragment">Fragmenten Überschrift</string>
 </resources>
