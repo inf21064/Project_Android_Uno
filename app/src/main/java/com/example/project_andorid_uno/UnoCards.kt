@@ -1,5 +1,7 @@
 package com.example.project_andorid_uno
 
+import android.content.Context
+
 object UnoCards {
     val coverCard = CoverCard
     val blueZero = ValueCard(CardColor.BLUE, 0)
@@ -41,7 +43,7 @@ object UnoCards {
     val redSeven = ValueCard(CardColor.RED, 7)
     val redEight = ValueCard(CardColor.RED, 8)
     val redNine = ValueCard(CardColor.RED, 9)
-    val greenDrawTwo = FunctionCard(CardColor.GREEN,"Draw Two")
+    val greenDrawTwo = FunctionCard(CardColor.GREEN, "Draw Two")
     val yellowDrawTwo = FunctionCard(CardColor.YELLOW, "Draw Two")
     val blueDrawTwo = FunctionCard(CardColor.BLUE, "Draw Two")
     val redDrawTwo = FunctionCard(CardColor.RED, "Draw Two")
@@ -53,19 +55,22 @@ object UnoCards {
     val yellowSkip = FunctionCard(CardColor.YELLOW, "Skip")
     val blueSkip = FunctionCard(CardColor.BLUE, "Skip")
     val redSkip = FunctionCard(CardColor.RED, "Skip")
-    val chooseColor = FunctionCard(CardColor.ANY,"Choose Color")
+    val chooseColor = FunctionCard(CardColor.ANY, "Choose Color")
     val plusFour = FunctionCard(CardColor.ANY, "Choose Color Draw Four")
 
 
-    val cards = mutableListOf(yellowOne,yellowNine,greenNine,greenDrawTwo,
-        yellowDrawTwo,yellowSkip,chooseColor)
-    val cards2 = mutableListOf(greenDrawTwo, yellowDrawTwo)
+    val deck = mutableListOf(
+        yellowOne, yellowNine, greenNine, greenDrawTwo,
+        yellowDrawTwo, yellowSkip, chooseColor
+    )
+    val deck2 = mutableListOf(greenDrawTwo, yellowDrawTwo)
 
-    fun getStack(): String = cards.toString()
+    fun getStack(): String = deck.toString()
 
-    fun play(): Unit {
-        //val game = PlayedCards(greenNine)
-        //for(element in cards2) {
-         //   game.play(element)
+    fun play(context: Context): Unit {
+        val game = PlayedCards(greenNine, context)
+        for (element in deck2) {
+            game.play(element)
         }
     }
+}
