@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Virtuelles UNO Projekt</string>
+    <string name="hello_blank_fragment">Hallo Fragment</string>
+    <string name="welcome_text">Willkommen!</string>
+</resources>
