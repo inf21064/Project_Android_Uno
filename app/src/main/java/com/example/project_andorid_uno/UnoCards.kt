@@ -1,6 +1,8 @@
 package com.example.project_andorid_uno
 
 import android.content.Context
+import android.widget.Toast
+import kotlin.random.Random
 
 object UnoCards {
     val coverCard = CoverCard
@@ -24,6 +26,7 @@ object UnoCards {
     val yellowSeven = ValueCard(CardColor.YELLOW, 7)
     val yellowEight = ValueCard(CardColor.YELLOW, 8)
     val yellowNine = ValueCard(CardColor.YELLOW, 9)
+    val greenZero = ValueCard(CardColor.GREEN, 0)
     val greenOne = ValueCard(CardColor.GREEN, 1)
     val greenTwo = ValueCard(CardColor.GREEN, 2)
     val greenThree = ValueCard(CardColor.GREEN, 3)
@@ -60,17 +63,53 @@ object UnoCards {
 
 
     val deck = mutableListOf(
-        yellowOne, yellowNine, greenNine, greenDrawTwo,
-        yellowDrawTwo, yellowSkip, chooseColor
+        yellowZero, yellowOne, yellowTwo, yellowThree, yellowFour, yellowFive, yellowSix, yellowSeven, yellowEight, yellowNine,
+        greenZero, greenOne, greenTwo, greenThree, greenFour, greenFive, greenSix, greenSeven, greenEight, greenNine,
+        blueZero, blueOne, blueTwo, blueThree, blueFour, blueFive, blueSix, blueSeven, blueEight, blueNine,
+        redZero, redOne, redTwo, redThree, redFour, redFive, redSix,  redSeven, redEight, redNine,
+        greenDrawTwo, yellowDrawTwo, redDrawTwo, blueDrawTwo,
+        yellowSkip, greenSkip, blueSkip, redSkip,
+        yellowReverse, greenReverse, blueReverse, redReverse,
+        chooseColor
     )
-    val deck2 = mutableListOf(greenDrawTwo, yellowDrawTwo)
+
+
+
+    private fun getRandomCard(list: MutableList<PlayingCard>) : PlayingCard {
+        val randomIndex = Random.nextInt(list.size);
+        val randomElement = list[randomIndex]
+        list.remove(randomElement)
+        return randomElement
+    }
+
+    var deckPlayer:MutableList<PlayingCard> = mutableListOf()
+    fun getPlayerDeck(){
+        for(i in 1..7){
+            deckPlayer.add(getRandomCard(deck))
+        }
+    }
+
+    var deckEnemy:MutableList<PlayingCard> = mutableListOf()
+    fun getEnemyDeck(){
+        for(i in 1..7){ // make second number depending on user input to get requirement
+            deckPlayer.add(getRandomCard(deck))
+        }
+    }
 
     fun getStack(): String = deck.toString()
 
     fun play(context: Context): Unit {
-        val game = PlayedCards(greenNine, context)
-        for (element in deck2) {
-            game.play(element)
+        val game = PlayedCards(greenNine, context)  // have to implement a random starting card
+
+        while(!(deckPlayer.isEmpty()) && !(deckEnemy.isEmpty()))
+        {
+            game.play(element) // which element should be inserted? probably the one the player plays
+            if(deckPlayer.isEmpty())
+            {
+                val message = "You win!" // make string later for different languages
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+            }
+            // enemy algorithm
         }
     }
 }
