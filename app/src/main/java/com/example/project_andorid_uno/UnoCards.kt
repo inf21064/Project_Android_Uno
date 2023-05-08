@@ -103,7 +103,7 @@ object UnoCards {
 
         while(!(deckPlayer.isEmpty()) && !(deckEnemy.isEmpty()))
         {
-            game.play(element) // which element should be inserted? probably the one the player plays
+            //game.play(element) // which element should be inserted? probably the one the player plays
             if(deckPlayer.isEmpty())
             {
                 val message = "You win!" // make string later for different languages
