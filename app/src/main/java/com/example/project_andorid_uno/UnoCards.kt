@@ -60,6 +60,8 @@ object UnoCards {
     val redSkip = FunctionCard(CardColor.RED, "Skip")
     val chooseColor = FunctionCard(CardColor.ANY, "Choose Color")
     val plusFour = FunctionCard(CardColor.ANY, "Choose Color Draw Four")
+    //draw cards(button with getcard function und skip turn)
+    // , switch cards, remove cards
 
 
     val deck = mutableListOf(
@@ -90,8 +92,8 @@ object UnoCards {
     }
 
     var deckEnemy:MutableList<PlayingCard> = mutableListOf()
-    fun getEnemyDeck(){
-        for(i in 1..7){ // make second number depending on user input to get requirement
+    fun getEnemyDeck(numberOfCardsToDraw: Int){
+        for(i in 1..numberOfCardsToDraw){ // make second number depending on user input to get requirement
             deckPlayer.add(getRandomCard(deck))
         }
     }
@@ -107,9 +109,14 @@ object UnoCards {
             if(deckPlayer.isEmpty())
             {
                 val message = "You win!" // make string later for different languages
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             }
             // enemy algorithm
+            if(deckEnemy.isEmpty())
+            {
+                val message = "You lose!" // make string later for different languages
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            }
         }
     }
 }
