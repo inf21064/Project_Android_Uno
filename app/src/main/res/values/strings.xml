@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="welcome_text">hello</string>
+    <string name="welcome_text">Welcome!</string>
     <string name="app_name">Virtual Uno Game</string>
     <string name="hello_blank_fragment">Fragment heading</string>
+    <string name="launch_game_btn_txt">Play now</string>
 </resources>
