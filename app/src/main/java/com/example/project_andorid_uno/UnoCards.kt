@@ -94,7 +94,7 @@ object UnoCards {
     var deckEnemy:MutableList<PlayingCard> = mutableListOf()
     fun getEnemyDeck(numberOfCardsToDraw: Int){
         for(i in 1..numberOfCardsToDraw){ // make second number depending on user input to get requirement
-            deckPlayer.add(getRandomCard(deck))
+            deckEnemy.add(getRandomCard(deck))
         }
     }
 
