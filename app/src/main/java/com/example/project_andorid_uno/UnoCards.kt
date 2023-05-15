@@ -72,9 +72,10 @@ object UnoCards {
         greenDrawTwo, yellowDrawTwo, redDrawTwo, blueDrawTwo,
         yellowSkip, greenSkip, blueSkip, redSkip,
         yellowReverse, greenReverse, blueReverse, redReverse,
-        chooseColor
+        chooseColor, plusFour
     )
 
+    var playDeck = deck
 
 
     private fun getRandomCard(list: MutableList<PlayingCard>) : PlayingCard {
@@ -85,38 +86,29 @@ object UnoCards {
     }
 
     var deckPlayer:MutableList<PlayingCard> = mutableListOf()
-    fun getPlayerDeck(){
-        for(i in 1..7){
-            deckPlayer.add(getRandomCard(deck))
+    fun getPlayerDeck(numberOfCardsToDraw: Int){
+        for(i in 1..numberOfCardsToDraw){
+            val tempCard = getRandomCard(playDeck)
+            deckPlayer.add(tempCard)
+            playDeck.remove(tempCard)
         }
     }
 
     var deckEnemy:MutableList<PlayingCard> = mutableListOf()
     fun getEnemyDeck(numberOfCardsToDraw: Int){
-        for(i in 1..numberOfCardsToDraw){ // make second number depending on user input to get requirement
-            deckEnemy.add(getRandomCard(deck))
-        }
+        val tempCard = getRandomCard(playDeck)
+        deckEnemy.add(tempCard)
+        playDeck.remove(tempCard)
     }
 
-    fun getStack(): String = deck.toString()
+    fun resetDeck(){
+        playDeck = deck
+    }
+    fun getDeck(): String = deck.toString()
 
     fun play(context: Context): Unit {
         val game = PlayedCards(greenNine, context)  // have to implement a random starting card
-
-        while(!(deckPlayer.isEmpty()) && !(deckEnemy.isEmpty()))
-        {
-            //game.play(element) // which element should be inserted? probably the one the player plays
-            if(deckPlayer.isEmpty())
-            {
-                val message = "You win!" // make string later for different languages
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-            }
-            // enemy algorithm
-            if(deckEnemy.isEmpty())
-            {
-                val message = "You lose!" // make string later for different languages
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-            }
-        }
+        getPlayerDeck(7)
+        getEnemyDeck(7)
     }
 }
