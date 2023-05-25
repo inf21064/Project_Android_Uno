@@ -4,4 +4,9 @@
     <string name="app_name">Virtuelles UNO Spiel</string>
     <string name="hello_blank_fragment">Fragmenten Überschrift</string>
     <string name="launch_game_btn_txt">Jetzt spielen</string>
+    <string name="settings">Spieleinstellungen</string>
+    <string name="game_rules_txt">Der erste Spiele legt eine Karte von seiner Hand auf den Ablagestapel. Dabei gilt: Eine Karte kann nur auf eine Karte der gleichen Farbe oder der gleichen Zahl gelegt werden. Die schwarzen Karten sind spezielle Aktionskarten mit besonderen Regeln (siehe Aktionskarten). Kann ein Spieler keine passende Karte legen, so muss er eine Strafkarte vom verdeckten Stapel ziehen. Diese Karte kann er sofort wieder ausspielen, sofern diese passt. Hat er keine passende Karte ist der nächste Spieler an der Reihe. Wer die vorletzte Karte ablegt, muss „UNO!“ (das bedeutet „Eins“) rufen und signalisiert damit, dass er nur noch eine Karte auf der Hand hat. Vergisst ein Spieler das und ein anderer bekommt es rechtzeitig mit (bevor der nächste Spieler eine Karte gezogen oder abgeworfen hat) so muss er 2 Strafkarten ziehen. Die Runde gewinnt derjenige, welcher die letzte Karte abgelegt hat. Die Punkte werden addiert und eine neue Runde wird gespielt.</string>
+    <string name="game_rules_heading">Spielverlauf</string>
+    <string name="num_of_startcards">Anzahl der Handkarten zu Spielbeginn</string>
+    <string name="apply_settings">Übernehmen</string>
 </resources>

@@ -27,4 +27,9 @@
         android:name="com.example.project_andorid_uno.resultFragment"
         android:label="fragment_result"
         tools:layout="@layout/fragment_result" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.project_andorid_uno.settingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
