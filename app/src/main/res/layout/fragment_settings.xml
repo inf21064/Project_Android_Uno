@@ -48,16 +48,6 @@
             app:layout_constraintStart_toStartOf="@+id/cardSettingsInput"
             app:layout_constraintTop_toBottomOf="@+id/cardSettingsInput" />
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{numOfCards.toString()}"
-            app:layout_constraintBottom_toBottomOf="@+id/numOfCardsTxtInput"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/numOfCardsTxtInput"
-            app:layout_constraintTop_toTopOf="@+id/numOfCardsTxtInput" />
-
         <Button
             android:id="@+id/applySettingsBtn"
             android:layout_width="wrap_content"

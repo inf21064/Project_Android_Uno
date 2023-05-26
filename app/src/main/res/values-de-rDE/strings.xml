@@ -9,4 +9,6 @@
     <string name="game_rules_heading">Spielverlauf</string>
     <string name="num_of_startcards">Anzahl der Handkarten zu Spielbeginn</string>
     <string name="apply_settings">Übernehmen</string>
+    <string name="botTextOutputGreeting">Hallo! Wie gehts?</string>
+    <string name="botTextOutputUno">UNO !</string>
 </resources>
