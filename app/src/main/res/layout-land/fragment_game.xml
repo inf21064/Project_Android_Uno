@@ -21,26 +21,21 @@
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
             android:src="@drawable/blue_1_card_clipart_md"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="135dp" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="0dp"
             android:layout_height="55dp"
             android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
             android:scrollbars="horizontal"
-            app:layout_constraintEnd_toEndOf="@+id/playedUnoCardView"
+            app:layout_constraintEnd_toStartOf="@+id/skipRoundButton"
             app:layout_constraintStart_toStartOf="@+id/playedUnoCardView"
             app:layout_constraintTop_toBottomOf="@+id/playedUnoCardView">
 
@@ -48,33 +43,28 @@
 
         <Button
             android:id="@+id/skipRoundButton"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginEnd="32dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:text="Skip"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/button5"
+            app:layout_constraintEnd_toEndOf="@+id/playedUnoCardView" />
 
         <Button
             android:id="@+id/button5"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="32dp"
             android:layout_marginBottom="32dp"
             android:text="Uno"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toEndOf="@+id/skipRoundButton" />
 
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/playedUnoCardView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/playedUnoCardView"
             app:srcCompat="@drawable/ic_launcher_foreground" />
 
         <TextView
@@ -90,11 +80,9 @@
             android:id="@+id/stopGameButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
             android:backgroundTint="#0097A7"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/playedUnoCardView"
+            app:layout_constraintTop_toTopOf="@+id/playedUnoCardView"
             app:srcCompat="@drawable/close_fill0_wght400_grad0_opsz48" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

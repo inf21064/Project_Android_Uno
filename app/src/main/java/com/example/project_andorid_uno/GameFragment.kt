@@ -7,14 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.DataBindingUtil.setContentView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.project_andorid_uno.databinding.FragmentGameBinding
-import com.example.project_andorid_uno.databinding.FragmentSettingsBinding
 import kotlin.system.exitProcess
 
-class gameFragment : Fragment() {
+class GameFragment : Fragment() {
     lateinit var imageView: ImageView
     lateinit var recyclerView: RecyclerView
     override fun onCreateView(
@@ -25,10 +24,8 @@ class gameFragment : Fragment() {
             R.layout.fragment_game,container,false)
         imageView = binding.playedUnoCardView
         recyclerView = binding.rv
-
-        binding.helperPlayButton.setOnClickListener {
-            val dicedNumber = (1..15).random()
-            binding.playedUnoCardView.setImageResource(getUnoCard(dicedNumber))
+        binding.stopGameButton.setOnClickListener { view : View ->
+            view.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
         }
 
         return binding.root

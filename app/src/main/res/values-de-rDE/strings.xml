@@ -11,4 +11,6 @@
     <string name="apply_settings">Übernehmen</string>
     <string name="botTextOutputGreeting">Hallo! Wie gehts?</string>
     <string name="botTextOutputUno">UNO !</string>
+    <string name="fragment_game_heading">Gewinnst du?</string>
+    <string name="fragment_result_heading">Spielergebnisse</string>
 </resources>

@@ -1,16 +1,13 @@
 package com.example.project_andorid_uno
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.example.project_andorid_uno.databinding.FragmentHomeBinding
+import androidx.navigation.findNavController
 import com.example.project_andorid_uno.databinding.FragmentSettingsBinding
-import java.io.Console
 
 var numOfCards = 7
 
@@ -25,7 +22,7 @@ class settingsFragment : Fragment() {
 
         binding.applySettingsBtn.setOnClickListener {
             numOfCards = binding.numOfCardsTxtInput.text.toString().toInt()
-            println(numOfCards)
+            it.findNavController().navigate(R.id.action_settingsFragment_to_homeFragment)
         }
 
         return binding.root

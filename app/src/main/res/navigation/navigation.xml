@@ -6,8 +6,8 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.project_andorid_uno.homeFragment"
-        android:label="fragment_home"
+        android:name="com.example.project_andorid_uno.HomeFragment"
+        android:label="@string/welcome_text"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_gameFragment"
@@ -15,8 +15,8 @@
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
-        android:name="com.example.project_andorid_uno.gameFragment"
-        android:label="fragment_game"
+        android:name="com.example.project_andorid_uno.GameFragment"
+        android:label="@string/fragment_game_heading"
         tools:layout="@layout/fragment_game" >
         <action
             android:id="@+id/action_gameFragment_to_resultFragment"
@@ -24,12 +24,23 @@
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
-        android:name="com.example.project_andorid_uno.resultFragment"
-        android:label="fragment_result"
-        tools:layout="@layout/fragment_result" />
+        android:name="com.example.project_andorid_uno.ResultFragment"
+        android:label="@string/fragment_result_heading"
+        tools:layout="@layout/fragment_result" >
+        <action
+            android:id="@+id/action_resultFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_resultFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.project_andorid_uno.settingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>
