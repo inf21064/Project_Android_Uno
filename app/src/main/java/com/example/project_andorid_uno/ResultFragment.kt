@@ -1,5 +1,6 @@
 package com.example.project_andorid_uno
 
+import android.icu.number.IntegerWidth
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,19 +11,24 @@ import androidx.navigation.findNavController
 import com.example.project_andorid_uno.databinding.FragmentResultBinding
 
 class ResultFragment : Fragment() {
-
+    lateinit var result: ResultData
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        /*this is for testing*/
+        result = ResultData("1","2", "3")
+
         val binding = DataBindingUtil.inflate<FragmentResultBinding>(inflater,
             R.layout.fragment_result,container,false)
-        binding.playAgainButton.setOnClickListener { view : View ->
-            view.findNavController().navigate(R.id.action_resultFragment_to_gameFragment)
+        binding.resultData = result
+
+        binding.playAgainButton.setOnClickListener {
+            it.findNavController().navigate(R.id.action_resultFragment_to_gameFragment)
         }
-        binding.returnHomeButton.setOnClickListener { view : View ->
-            view.findNavController().navigate(R.id.action_resultFragment_to_homeFragment)
+        binding.returnHomeButton.setOnClickListener {
+            it.findNavController().navigate(R.id.action_resultFragment_to_homeFragment)
         }
-        return inflater.inflate(R.layout.fragment_result, container, false)
+        return binding.root
     }
 }

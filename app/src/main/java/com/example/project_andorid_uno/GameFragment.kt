@@ -24,8 +24,8 @@ class GameFragment : Fragment() {
             R.layout.fragment_game,container,false)
         imageView = binding.playedUnoCardView
         recyclerView = binding.rv
-        binding.stopGameButton.setOnClickListener { view : View ->
-            view.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+        binding.stopGameButton.setOnClickListener {
+            it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
         }
 
         return binding.root

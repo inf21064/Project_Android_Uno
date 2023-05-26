@@ -13,4 +13,5 @@
     <string name="botTextOutputUno">UNO !</string>
     <string name="fragment_game_heading">Are you winning?</string>
     <string name="fragment_result_heading">Game results</string>
+    <string name="roundsPlayedText">Rounds played :</string>
 </resources>
