@@ -12,12 +12,19 @@ import com.example.project_andorid_uno.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
+    private lateinit var myNavHostFragment: DrawerLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
 
         navController = findNavController(R.id.myNavHostFragment)
-        setupActionBarWithNavController(navController)
+        navController.addOnDestinationChangedListener() { _, destination, _ ->
+            if (navController.currentDestination?.id != R.id.settingsFragment) {
+                supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            } else {
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            }
+        }
 
     }
 

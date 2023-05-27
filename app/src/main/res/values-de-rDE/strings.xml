@@ -14,4 +14,13 @@
     <string name="fragment_game_heading">Gewinnst du?</string>
     <string name="fragment_result_heading">Spielergebnisse</string>
     <string name="roundsPlayedText">Gespielte Runden :</string>
+    <string name="playedUnoCardViewContentDescription">Stapel der gespielten UNO-Karten</string>
+    <string name="drawCardButton">Ziehen</string>
+    <string name="sayUnoButton">UNO</string>
+    <string name="botImageViewContentDescription">Ich bin der UNO-Roboter</string>
+    <string name="stopGameButtonContentDescription">Spiel beenden</string>
+    <string name="shareResultButtonText">Teilen</string>
+    <string name="playerImageViewIconContentDesctiption">Spieler-Symbol</string>
+    <string name="botImageViewIconContentDescription">Roboter-Symbol</string>
+    <string name="pointsTextView">Punkte:</string>
 </resources>
