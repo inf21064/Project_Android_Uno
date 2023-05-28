@@ -26,12 +26,12 @@ class PlayedCards(val startCard:ValueCard, val context: Context) {
                     if(nextCard.getCardColor.equals("Any")) {
                         // == "Choose Color" || nextCard.getFunctionText == "Choose Color Draw Four"
                         if (nextCard.getFunctionText == "Choose Color") {
-                            val tempCard = FunctionCard(CardColor.RED/*whatever the player chooses*/, "Choose Color"
+                            val tempCard = FunctionCard(CardColor.RED/*whatever the player chooses*/, "Choose Color", R.drawable.wild_card_clipart_md
                             )
                             UnoCards.deckPlayer.remove(nextCard)
                             playedCards.add(tempCard)
                         } else {
-                            val tempCard = FunctionCard(CardColor.RED/*whatever the player chooses*/, "Choose Color Draw Four"
+                            val tempCard = FunctionCard(CardColor.RED/*whatever the player chooses*/, "Choose Color Draw Four", R.drawable.wild_draw_four_card_clipart_md
                             )
                             for (i in 1..4) {
                                 if(UnoCards.playDeck.isEmpty()){
@@ -41,7 +41,6 @@ class PlayedCards(val startCard:ValueCard, val context: Context) {
                                 }
                                 val tempCard2 = getRandomCard(UnoCards.playDeck)
                                 UnoCards.deckEnemy.add(tempCard2)
-                                UnoCards.playDeck.remove(tempCard2)
                             }
                             UnoCards.deckPlayer.remove(nextCard)
                             playedCards.add(tempCard)
@@ -111,15 +110,14 @@ class PlayedCards(val startCard:ValueCard, val context: Context) {
     private fun checkForDrawTwoPlayer(card: FunctionCard){
         if(card.getFunctionText.equals("Draw Two"))
         {
-            for (i in 1..2) {val tempCard = getRandomCard(UnoCards.playDeck)
+            for (i in 1..2) {
+                val tempCard = getRandomCard(UnoCards.playDeck)
                 if(UnoCards.playDeck.isEmpty()){
                     val message = "No more Cards, Game Over!" // make string later for different languages
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     break
                 }
                 UnoCards.deckEnemy.add(tempCard)
-                UnoCards.playDeck.remove(tempCard)
-
             }
         }
     }
@@ -134,7 +132,6 @@ class PlayedCards(val startCard:ValueCard, val context: Context) {
                 }
                 val tempCard = getRandomCard(UnoCards.playDeck)
                 UnoCards.deckPlayer.add(tempCard)
-                UnoCards.playDeck.remove(tempCard)
             }
         }
     }
@@ -152,7 +149,7 @@ class PlayedCards(val startCard:ValueCard, val context: Context) {
             if(element is FunctionCard){
                 if(element.getCardColor.equals("Any")){
                     if (element.getFunctionText == "Choose Color") {
-                        val tempCard = FunctionCard(CardColor.RED, "Choose Color"
+                        val tempCard = FunctionCard(CardColor.RED, "Choose Color", R.drawable.wild_card_clipart_md
                         )
                         //noch anzeigen was er sich wünscht, was er sich wünscht random machen
                         UnoCards.deckPlayer.remove(element)
@@ -160,7 +157,7 @@ class PlayedCards(val startCard:ValueCard, val context: Context) {
                         wasCardPlayed = true
                         break
                     }else{
-                        val tempCard = FunctionCard(CardColor.RED, "Choose Color Draw Four"
+                        val tempCard = FunctionCard(CardColor.RED, "Choose Color Draw Four", R.drawable.wild_draw_four_card_clipart_md
                         )
                         for (i in 1..4) {
                             UnoCards.deckPlayer.add(getRandomCard(UnoCards.deck))
@@ -238,7 +235,6 @@ class PlayedCards(val startCard:ValueCard, val context: Context) {
         if(!wasCardPlayed){
             val tempCard = getRandomCard(UnoCards.playDeck)
             UnoCards.deckEnemy.add(tempCard)
-            UnoCards.playDeck.remove(tempCard)
         }
         if(UnoCards.deckEnemy.isEmpty()){
             val message = "You lose!" // make string later for different languages

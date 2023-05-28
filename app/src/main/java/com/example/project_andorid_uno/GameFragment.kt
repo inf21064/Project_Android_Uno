@@ -34,30 +34,6 @@ class GameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = RecyclerViewAdapter({selectedItem -> imageView.setImageResource(selectedItem.imageResId)},
-            IntRange(0, 15).toList())
-    }
-    private fun getUnoCard(cardId : Int) : Int {
-        return when (cardId) {
-            0 -> R.drawable.green_0_card_clipart_md
-            1 -> R.drawable.green_1_card_clipart_md
-            2 -> R.drawable.green_2_card_clipart_md
-            3 -> R.drawable.green_reverse_card_clipart_md
-            4 -> R.drawable.blue_reverse_card_clipart_md
-            5 -> R.drawable.blue_5_card_clipart_md
-            6 -> R.drawable.blue_skip_card_clipart_md
-            7 -> R.drawable.blue_4_card_clipart_md
-            8 -> R.drawable.red_0_card_clipart_md
-            9 -> R.drawable.red_2_card_clipart_md
-            10 -> R.drawable.green_5_card_clipart_md
-            11 -> R.drawable.wild_card_clipart_md
-            12 -> R.drawable.red_4_card_clipart_md
-            13 -> R.drawable.green_3_card_clipart_md
-            14 -> R.drawable.blue_9_card_clipart_md
-            15 -> R.drawable.yellow_4_card_clipart_md
-            else -> {
-                println("Cant select image")
-                exitProcess(0)
-            }
-        }
+            IntRange(0, UnoCards.deckPlayer.size-1).toList()) //hier wird die karte in der mitte gesetzt
     }
 }

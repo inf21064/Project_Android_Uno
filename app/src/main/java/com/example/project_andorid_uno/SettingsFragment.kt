@@ -22,9 +22,18 @@ class settingsFragment : Fragment() {
 
         binding.applySettingsBtn.setOnClickListener {
             numOfCards = binding.numOfCardsTxtInput.text.toString().toInt()
-            it.findNavController().navigate(R.id.action_settingsFragment_to_homeFragment)
+            if (numOfCards < 1 || numOfCards > 15) {
+                binding.numOfCardsTxtInput.error = "Please enter a number between 1 and 15"
+                return@setOnClickListener
+            } else {
+                it.findNavController().navigate(R.id.action_settingsFragment_to_homeFragment)
+            }
         }
 
         return binding.root
+    }
+
+    fun getNumOfCards() : Int{
+        return numOfCards
     }
 }

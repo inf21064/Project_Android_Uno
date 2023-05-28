@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.project_andorid_uno.databinding.FragmentHomeBinding
+import com.example.project_andorid_uno.settingsFragment
 
 class HomeFragment : Fragment() {
 
@@ -19,6 +20,12 @@ class HomeFragment : Fragment() {
 
         binding.playBtn.setOnClickListener { view : View ->
             view.findNavController().navigate(R.id.action_homeFragment_to_gameFragment)
+            val fragment = settingsFragment()
+            UnoCards.playDeck = UnoCards.deck
+            UnoCards.deckPlayer.clear()
+            UnoCards.getPlayerDeck(fragment.getNumOfCards())
+            UnoCards.deckEnemy.clear()
+            UnoCards.getEnemyDeck(fragment.getNumOfCards())
         }
         setHasOptionsMenu(true)
         return binding.root
