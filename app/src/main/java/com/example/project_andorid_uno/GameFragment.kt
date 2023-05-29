@@ -37,9 +37,15 @@ class GameFragment : Fragment() {
         updateImage(startingCard.imageResId)
         super.onViewCreated(view, savedInstanceState)
         recyclerView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = RecyclerViewAdapter(this.context, {selectedItem -> imageView.setImageResource(selectedItem.imageResId) },
+        /////////////////////////////////////// Int Range ist das Problem
+        recyclerView.adapter = RecyclerViewAdapter(this.context, {
+                selectedItem -> setImageResource(selectedItem) },
             IntRange(0, UnoCards.deckPlayer.size-1).toList(), imageView, startingCard) //hier wird die karte in der mitte gesetzt
     }
+    private fun setImageResource(selectedItem: PlayingCard) {
+        imageView.setImageResource(selectedItem.imageResId)
+    }
+
     fun updateImage(imageResId: Int) {
         imageView.setImageResource(imageResId)
     }

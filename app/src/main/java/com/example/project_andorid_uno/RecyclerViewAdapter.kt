@@ -11,10 +11,8 @@ import android.content.Context
 import kotlin.random.Random
 
 class RecyclerViewAdapter (val context: Context?, private val onItemClick:(PlayingCard) -> Unit,
-                           val data: List<Int>, private val playedCardImageView: ImageView, val startingCard: PlayingCard) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>()
+                           var data: List<Int>, private val playedCardImageView: ImageView, val startingCard: PlayingCard) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>()
 {
-    val deckPlayer = UnoCards.deckPlayer
-
     val playedCards = PlayedCards(startingCard, context, playedCardImageView)
 
     inner class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
@@ -29,9 +27,13 @@ class RecyclerViewAdapter (val context: Context?, private val onItemClick:(Playi
                 playedCards.enemyPlay()
                 Thread.sleep(1000)
                 playedCards.updateImage(playedCards.playedCards.last().imageResId)
+                updatePositionData()
                 notifyDataSetChanged()
             }
         }
+    }
+    private fun updatePositionData() {
+        data = IntRange(0, UnoCards.deckPlayer.size-1).toList()
     }
 
 
@@ -42,14 +44,14 @@ class RecyclerViewAdapter (val context: Context?, private val onItemClick:(Playi
     }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.cardView.setImageResource(getUnoCard(position).getterImageResId())
-        holder.bind(deckPlayer[position])
+        holder.bind(UnoCards.deckPlayer[position])
     }
     override fun getItemCount(): Int = data.size
 
     private fun getUnoCard(cardId : Int) : PlayingCard {
-        if (cardId in 0..UnoCards.deckPlayer.size-1)
-            return deckPlayer[cardId]
-        else  {
+        if (cardId in 0 until UnoCards.deckPlayer.size) {
+            return UnoCards.deckPlayer[cardId]
+        } else  {
                 println("Cant select image")
                 exitProcess(0)
         }
