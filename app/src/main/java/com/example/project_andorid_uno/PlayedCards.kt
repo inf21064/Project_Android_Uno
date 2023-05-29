@@ -1,13 +1,20 @@
 package com.example.project_andorid_uno
 
 import android.content.Context
+import android.widget.ImageView
 import android.widget.Toast
 import kotlin.random.Random
 import kotlin.system.exitProcess
 
-class PlayedCards(val startCard:ValueCard, val context: Context) {
+class PlayedCards(val startCard:PlayingCard, val context: Context?, private val playedCardImageView: ImageView) {
+
     val playedCards: MutableList<PlayingCard> = mutableListOf(startCard)
     var whoHasTurn = "Player"
+
+    fun updateImage(imageResId: Int) {
+        playedCardImageView.setImageResource(imageResId)
+    }
+
 
     fun playerPlay(nextCard: PlayingCard) {
         val lastCard = playedCards.last()
