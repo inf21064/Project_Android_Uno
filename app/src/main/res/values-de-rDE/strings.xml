@@ -23,4 +23,5 @@
     <string name="playerImageViewIconContentDesctiption">Spieler-Symbol</string>
     <string name="botImageViewIconContentDescription">Roboter-Symbol</string>
     <string name="pointsTextView">Punkte:</string>
+    <string name="endTurnButton">Zug beenden</string>
 </resources>

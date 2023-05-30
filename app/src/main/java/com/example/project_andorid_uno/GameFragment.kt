@@ -23,6 +23,7 @@ class GameFragment : Fragment() {
 
     private lateinit var drawButton: Button
     private lateinit var unoButton: Button
+    private lateinit var endTurnButton: Button
 
 
     override fun onCreateView(
@@ -32,9 +33,12 @@ class GameFragment : Fragment() {
         val binding = DataBindingUtil.inflate<FragmentGameBinding>(inflater,
             R.layout.fragment_game,container,false)
         drawButton = binding.drawCardButton
+        endTurnButton = binding.endTurnButton
         unoButton = binding.sayUnoButton
         imageView = binding.playedUnoCardView
         recyclerView = binding.rv
+
+
 
         /*binding.drawCardButton.setOnClickListener {
                 if(UnoCards.playDeck.isEmpty()){
@@ -55,30 +59,41 @@ class GameFragment : Fragment() {
         binding.stopGameButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
         }
+
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val startingCard = getRandomCard(UnoCards.playDeck)
         updateImage(startingCard.imageResId)
-        val playedCards = PlayedCards(startingCard, context, imageView)
+        val playedCards = PlayedCards(startingCard, context, imageView, this)
         super.onViewCreated(view, savedInstanceState)
         recyclerView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = RecyclerViewAdapter(this.context, {
                 selectedItem -> setImageResource(selectedItem) },
             IntRange(0, UnoCards.deckPlayer.size-1).toList(), playedCards) //hier wird die karte in der mitte gesetzt
-
+        endTurnButton.setOnClickListener {
+            playedCards.enemyPlay()
+        }
         setDrawCardButtonListener(playedCards)
         setUnoButtonListener(playedCards)
+    }
+    fun changeEndTurnButtonVisibility(setParameter: Boolean){
+        if (setParameter) {
+            endTurnButton.visibility = View.VISIBLE
+            drawButton.visibility = View.INVISIBLE
+        } else {
+            endTurnButton.visibility = View.INVISIBLE
+            drawButton.visibility = View.VISIBLE
+        }
+    }
+    fun updateImage(imageResId: Int) {
+        imageView.setImageResource(imageResId)
     }
     private fun setImageResource(selectedItem: PlayingCard) {
         imageView.setImageResource(selectedItem.imageResId)
     }
-
-    fun updateImage(imageResId: Int) {
-        imageView.setImageResource(imageResId)
-    }
-
     private fun setDrawCardButtonListener(playedCards: PlayedCards) {
         drawButton.setOnClickListener {
             if (UnoCards.playDeck.isEmpty()) {
