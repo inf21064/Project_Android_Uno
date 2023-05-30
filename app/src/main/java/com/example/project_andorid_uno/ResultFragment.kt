@@ -35,6 +35,12 @@ class ResultFragment : Fragment() {
         }
         binding.playAgainButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_resultFragment_to_gameFragment)
+            val fragment = settingsFragment()
+            UnoCards.playDeck = UnoCards.deck
+            UnoCards.deckPlayer.clear()
+            UnoCards.getPlayerDeck(fragment.getNumOfCards())
+            UnoCards.deckEnemy.clear()
+            UnoCards.getEnemyDeck(fragment.getNumOfCards())
         }
         binding.returnHomeButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_resultFragment_to_homeFragment)

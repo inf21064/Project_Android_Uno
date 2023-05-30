@@ -8,36 +8,43 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlin.system.exitProcess
 import com.example.project_andorid_uno.PlayedCards
 import android.content.Context
+import android.widget.Button
+import androidx.navigation.findNavController
 import kotlin.random.Random
 
 class RecyclerViewAdapter (val context: Context?, private val onItemClick:(PlayingCard) -> Unit,
-                           var data: List<Int>, private val playedCardImageView: ImageView, val startingCard: PlayingCard) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>()
+                           var data: List<Int>, val playedCards: PlayedCards) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>()
 {
-    val playedCards = PlayedCards(startingCard, context, playedCardImageView)
+
+
 
     inner class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val cardView = row.findViewById<ImageView>(R.id.cardView)
         fun bind(data: PlayingCard) {
             row.setOnClickListener{
-
-                onItemClick.invoke(data)
-                //reinhängen
                 playedCards.playerPlay(data)
-
-                playedCards.enemyPlay()
-                Thread.sleep(1000)
+                onItemClick.invoke(data)
                 playedCards.updateImage(playedCards.playedCards.last().imageResId)
-                updatePositionData()
-                notifyDataSetChanged()
+
+                Thread.sleep(1500)
+                if(UnoCards.deckPlayer.isEmpty()){
+                    it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+                }else if(playedCards.whoHasTurn == "Enemy"){
+                    playedCards.enemyPlay()
+                    playedCards.whoHasTurn = "Player"
+                    playedCards.updateImage(playedCards.playedCards.last().imageResId)
+                    updatePositionData()
+                    notifyDataSetChanged()
+                    if(UnoCards.deckEnemy.isEmpty()){
+                            it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+                    }
+                }
             }
         }
     }
     private fun updatePositionData() {
         data = IntRange(0, UnoCards.deckPlayer.size-1).toList()
     }
-
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.card_view, parent, false)
         return MyViewHolder(layout)
@@ -57,7 +64,6 @@ class RecyclerViewAdapter (val context: Context?, private val onItemClick:(Playi
         }
     }
 }
-
 fun getRandomCard(list: MutableList<PlayingCard>) : PlayingCard {
     val randomIndex = Random.nextInt(list.size);
     val randomElement = list[randomIndex]

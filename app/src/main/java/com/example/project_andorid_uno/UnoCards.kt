@@ -2,6 +2,7 @@ package com.example.project_andorid_uno
 
 import android.content.Context
 import android.widget.Toast
+import androidx.navigation.findNavController
 import kotlin.random.Random
 
 object UnoCards {
@@ -77,7 +78,8 @@ object UnoCards {
     var playDeck = deck
 
 
-    private fun getRandomCard(list: MutableList<PlayingCard>) : PlayingCard {
+    fun getRandomCard(list: MutableList<PlayingCard>) : PlayingCard {
+
         val randomIndex = Random.nextInt(list.size);
         val randomElement = list[randomIndex]
         list.remove(randomElement)
@@ -94,8 +96,10 @@ object UnoCards {
 
     var deckEnemy:MutableList<PlayingCard> = mutableListOf()
     fun getEnemyDeck(numberOfCardsToDraw: Int){
-        val tempCard = getRandomCard(playDeck)
-        deckEnemy.add(tempCard)
+        for(i in 1..numberOfCardsToDraw){
+            val tempCard = getRandomCard(playDeck)
+            deckEnemy.add(tempCard)
+        }
     }
 
     fun resetDeck(){

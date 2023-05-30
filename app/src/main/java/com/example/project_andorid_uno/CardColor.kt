@@ -9,7 +9,7 @@ enum class CardColor (){
             YELLOW -> "yellow"
             GREEN -> "green"
             BLUE -> "blue"
-            ANY -> "neutral"
+            ANY -> "Any"
         }
     }
 }

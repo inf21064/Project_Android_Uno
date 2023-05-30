@@ -2,6 +2,7 @@ package com.example.project_andorid_uno
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
@@ -28,6 +29,7 @@ class HomeFragment : Fragment() {
             UnoCards.deckEnemy.clear()
             UnoCards.getEnemyDeck(fragment.getNumOfCards())
         }
+
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -40,4 +42,7 @@ class HomeFragment : Fragment() {
         return NavigationUI.onNavDestinationSelected(item, requireView().findNavController())
                 || super.onOptionsItemSelected(item)
     }
+
+
+
 }

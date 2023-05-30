@@ -10,91 +10,150 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
 
     val playedCards: MutableList<PlayingCard> = mutableListOf(startCard)
     var whoHasTurn = "Player"
+    var cardDrawn = false
+    var saidUno = false
+    var skipTurns = 0
 
     fun updateImage(imageResId: Int) {
         playedCardImageView.setImageResource(imageResId)
     }
 
+    fun checkForSkipOrReverse(playedCard: FunctionCard){
+        if(playedCard.getFunctionText =="Skip" || playedCard.getFunctionText == "Reverse"){
+            skipTurns++
+        }
+    }
+
+    fun checkForUno() {
+        if (UnoCards.deckPlayer.size == 1) {
+            val message =
+                "You forgot to say Uno. Draw 2 Cards!" // make string later for different languages
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            for (i in 1..2) {
+                val tempCard = getRandomCard(UnoCards.playDeck)
+                if (UnoCards.playDeck.isEmpty()) {
+                    val message =
+                        "No more Cards, Game Over!" // make string later for different languages
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                    break
+                } else {
+                    UnoCards.deckPlayer.add(tempCard)
+                }
+            }
+        }
+    }
 
     fun playerPlay(nextCard: PlayingCard) {
-        val lastCard = playedCards.last()
-        if(lastCard::class == nextCard::class) {
-            when (nextCard) {
-                is ValueCard -> {
-                    lastCard as ValueCard
-                    if (lastCard.getCardColor == nextCard.getCardColor || lastCard.getCardValue == nextCard.getCardValue) {
-                        UnoCards.deckPlayer.remove(nextCard)
-                        playedCards.add(nextCard)
-                    }else {
-                        notAllowed(lastCard, nextCard)
-                    }
-                }
-                is FunctionCard -> {
-                    if(nextCard.getCardColor.equals("Any")) {
-                        // == "Choose Color" || nextCard.getFunctionText == "Choose Color Draw Four"
-                        if (nextCard.getFunctionText == "Choose Color") {
-                            val tempCard = FunctionCard(CardColor.RED/*whatever the player chooses*/, "Choose Color", R.drawable.wild_card_clipart_md
-                            )
+        if(skipTurns == 0) {
+            val lastCard = playedCards.last()
+            if (lastCard::class == nextCard::class) {
+                when (nextCard) {
+                    is ValueCard -> {
+                        lastCard as ValueCard
+                        if (lastCard.getCardColor == nextCard.getCardColor || lastCard.getCardValue == nextCard.getCardValue) {
                             UnoCards.deckPlayer.remove(nextCard)
-                            playedCards.add(tempCard)
+                            checkForUno()
+                            playedCards.add(nextCard)
+                            whoHasTurn = "Enemy"
                         } else {
-                            val tempCard = FunctionCard(CardColor.RED/*whatever the player chooses*/, "Choose Color Draw Four", R.drawable.wild_draw_four_card_clipart_md
-                            )
-                            for (i in 1..4) {
-                                if(UnoCards.playDeck.isEmpty()){
-                                    val message = "No more Cards, Game Over!" // make string later for different languages
-                                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                                    break
-                                }
-                                val tempCard2 = getRandomCard(UnoCards.playDeck)
-                                UnoCards.deckEnemy.add(tempCard2)
+                            notAllowed(lastCard, nextCard)
+                        }
+                    }
+                    is FunctionCard -> {
+                        if (nextCard.getCardColor.toString() == "Any") {
+                            checkForAny(nextCard)
+                        } else if (lastCard is FunctionCard) {
+                            if (lastCard.getCardColor == nextCard.getCardColor || lastCard.getFunctionText.equals(
+                                    nextCard.getFunctionText
+                                )
+                            ) {
+                                checkForDrawTwoPlayer(nextCard)
+                                UnoCards.deckPlayer.remove(nextCard)
+                                checkForUno()
+                                playedCards.add(nextCard)
+                                whoHasTurn = "Enemy"
+                            } else {
+                                notAllowed(lastCard, nextCard)
                             }
-                            UnoCards.deckPlayer.remove(nextCard)
-                            playedCards.add(tempCard)
-                        }
-                    }else if (lastCard is FunctionCard){
-                        if (lastCard.getCardColor == nextCard.getCardColor || lastCard.getFunctionText.equals(nextCard.getFunctionText) ) {
-                            checkForDrawTwoPlayer(nextCard)
-                            UnoCards.deckPlayer.remove(nextCard)
-                            playedCards.add(nextCard)
-                        }else {
-                            notAllowed(lastCard, nextCard)
                         }
                     }
-                }else -> {
-                    println("Error with Cards: $lastCard and $nextCard")
-                    exitProcess(0)
-                }
-            }
-        }
-        else if (lastCard::class != nextCard::class){
-            when (nextCard) {
-                is ValueCard  -> {
-                    lastCard as FunctionCard
-                    if (lastCard.getCardColor == nextCard.getCardColor) {
-                        UnoCards.deckPlayer.remove(nextCard)
-                        playedCards.add(nextCard)
-                    }else {
-                        notAllowed(lastCard, nextCard)
+                    else -> {
+                        println("Error with Cards: $lastCard and $nextCard")
+                        exitProcess(0)
                     }
                 }
-                is FunctionCard -> {
-                    lastCard as ValueCard
+            } else if (lastCard::class != nextCard::class) {
+                when (nextCard) {
+                    is ValueCard -> {
+                        lastCard as FunctionCard
                         if (lastCard.getCardColor == nextCard.getCardColor) {
-                            checkForDrawTwoPlayer(nextCard)
                             UnoCards.deckPlayer.remove(nextCard)
+                            checkForUno()
                             playedCards.add(nextCard)
-                        }else {
+                            whoHasTurn = "Enemy"
+                        } else {
                             notAllowed(lastCard, nextCard)
                         }
+                    }
+                    is FunctionCard -> {
+                        lastCard as ValueCard
+                        if (nextCard.getCardColor.toString() == "Any") {
+                            checkForAny(nextCard)
+                        } else if (lastCard.getCardColor == nextCard.getCardColor) {
+                            checkForDrawTwoPlayer(nextCard)
+                            UnoCards.deckPlayer.remove(nextCard)
+                            checkForUno()
+                            playedCards.add(nextCard)
+                            whoHasTurn = "Enemy"
+                        } else {
+                            notAllowed(lastCard, nextCard)
+                        }
+                    }
                 }
             }
+            if (UnoCards.deckPlayer.isEmpty()) {
+                val message = "You win!" // make string later for different languages
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            }
+        } else{
+            skipTurns--
         }
-        if(UnoCards.deckPlayer.isEmpty()){
-            val message = "You win!" // make string later for different languages
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun checkForAny(nextCard: FunctionCard) {
+
+        // == "Choose Color" || nextCard.getFunctionText == "Choose Color Draw Four"
+        if (nextCard.getFunctionText == "Choose Color") {
+            val tempCard = FunctionCard(
+                CardColor.RED/*whatever the player chooses*/,
+                "Choose Color",
+                R.drawable.wild_card_clipart_md
+            )
+            UnoCards.deckPlayer.remove(nextCard)
+            checkForUno()
+            playedCards.add(tempCard)
+            whoHasTurn = "Enemy"
+        } else {
+            val tempCard = FunctionCard(
+                CardColor.RED/*whatever the player chooses*/,
+                "Choose Color Draw Four",
+                R.drawable.wild_draw_four_card_clipart_md
+            )
+            for (i in 1..4) {
+                if (UnoCards.playDeck.isEmpty()) {
+                    val message =
+                        "No more Cards, Game Over!" // make string later for different languages
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                    break
+                }
+                val tempCard2 = getRandomCard(UnoCards.playDeck)
+                UnoCards.deckEnemy.add(tempCard2)
+            }
+            UnoCards.deckPlayer.remove(nextCard)
+            checkForUno()
+            playedCards.add(tempCard)
+            whoHasTurn = "Enemy"
         }
-        var whoHasTurn = "Enemy"
     }
 
     private fun <T: PlayingCard>notAllowed(lastCard: T,nextCard: T) : Unit {
@@ -123,8 +182,10 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                     val message = "No more Cards, Game Over!" // make string later for different languages
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     break
+                } else {
+                    UnoCards.deckEnemy.add(tempCard)
                 }
-                UnoCards.deckEnemy.add(tempCard)
+
             }
         }
     }
@@ -136,117 +197,125 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                     val message = "No more Cards, Game Over!" // make string later for different languages
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     break
+                }else{
+                    val tempCard = getRandomCard(UnoCards.playDeck)
+                    UnoCards.deckPlayer.add(tempCard)
                 }
-                val tempCard = getRandomCard(UnoCards.playDeck)
-                UnoCards.deckPlayer.add(tempCard)
+
             }
         }
     }
 
     fun enemyPlay() {
-        //UnoCards.deckEnemy
+        cardDrawn = false
         val lastCard = playedCards.last()
         var wasCardPlayed = false
 
-        if(UnoCards.deckEnemy.size == 1){
-            sayUno()
-        }
-
-        for (element in UnoCards.deckEnemy){
-            if(element is FunctionCard){
-                if(element.getCardColor.equals("Any")){
-                    if (element.getFunctionText == "Choose Color") {
-                        val tempCard = FunctionCard(CardColor.RED, "Choose Color", R.drawable.wild_card_clipart_md
-                        )
-                        //noch anzeigen was er sich wünscht, was er sich wünscht random machen
-                        UnoCards.deckPlayer.remove(element)
-                        playedCards.add(tempCard)
-                        wasCardPlayed = true
-                        break
-                    }else{
-                        val tempCard = FunctionCard(CardColor.RED, "Choose Color Draw Four", R.drawable.wild_draw_four_card_clipart_md
-                        )
-                        for (i in 1..4) {
-                            UnoCards.deckPlayer.add(getRandomCard(UnoCards.deck))
-                            if(UnoCards.playDeck.isEmpty()){
-                                val message = "No more Cards, Game Over!" // make string later for different languages
-                                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        if(skipTurns != 0)
+        {
+            skipTurns--
+        }else {
+            for (element in UnoCards.deckEnemy) {
+                if (element is FunctionCard) {
+                    if (element.getCardColor.toString() == "Any") {
+                        if (element.getFunctionText == "Choose Color") {
+                            val tempCard = FunctionCard(
+                                CardColor.RED, "Choose Color", R.drawable.wild_card_clipart_md
+                            )
+                            //noch anzeigen was er sich wünscht, was er sich wünscht random machen
+                            UnoCards.deckEnemy.remove(element)
+                            playedCards.add(tempCard)
+                            wasCardPlayed = true
+                            break
+                        } else {
+                            val tempCard = FunctionCard(
+                                CardColor.RED,
+                                "Choose Color Draw Four",
+                                R.drawable.wild_draw_four_card_clipart_md
+                            )
+                            for (i in 1..4) {
+                                UnoCards.deckPlayer.add(getRandomCard(UnoCards.deck))
+                            }
+                            UnoCards.deckEnemy.remove(element)
+                            playedCards.add(tempCard)
+                            wasCardPlayed = true
+                            break
+                        }
+                    } else if (lastCard is FunctionCard) {
+                        if (lastCard.getCardColor == element.getCardColor || lastCard.getFunctionText == element.getFunctionText)
+                        {
+                            checkForDrawTwoEnemy(element)
+                            UnoCards.deckEnemy.remove(element)
+                            checkForSkipOrReverse(element)
+                            playedCards.add(element)
+                            wasCardPlayed = true
+                            break
+                        }
+                    } else if (lastCard is ValueCard) {
+                        if (lastCard.getCardColor == element.getCardColor) {
+                            checkForDrawTwoEnemy(element)
+                            UnoCards.deckEnemy.remove(element)
+                            checkForSkipOrReverse(element)
+                            playedCards.add(element)
+                            wasCardPlayed = true
+                            break
+                        }
+                    }
+                }
+            }
+            if (!wasCardPlayed) {
+                for (element in UnoCards.deckEnemy) {
+                    if (element is ValueCard) {
+                        if (lastCard is ValueCard) {
+                            if (lastCard.getCardColor == element.getCardColor) {
+                                UnoCards.deckEnemy.remove(element)
+                                playedCards.add(element)
+                                wasCardPlayed = true
+                                break
+                            }
+                        } else if (lastCard is FunctionCard) {
+                            if (lastCard.getCardColor == element.getCardColor) {
+                                UnoCards.deckEnemy.remove(element)
+                                playedCards.add(element)
+                                wasCardPlayed = true
                                 break
                             }
                         }
-                        UnoCards.deckEnemy.remove(element)
-                        playedCards.add(tempCard)
-                        wasCardPlayed = true
-                        break
                     }
                 }
-                else{
-                    if(lastCard is FunctionCard){
-                        if (lastCard.getCardColor == element.getCardColor || lastCard.getFunctionText.equals(element.getFunctionText) ) {
-                            checkForDrawTwoEnemy(element)
-                            UnoCards.deckEnemy.remove(element)
-                            playedCards.add(element)
-                            wasCardPlayed = true
-                            break
-                        }
-                    }else if (lastCard is ValueCard){
-                        if (lastCard.getCardColor == element.getCardColor) {
-                            checkForDrawTwoEnemy(element)
-                            UnoCards.deckEnemy.remove(element)
-                            playedCards.add(element)
-                            wasCardPlayed = true
-                            break
+            }
+
+            if (!wasCardPlayed) {
+                for (element in UnoCards.deckEnemy) {
+                    if (element is ValueCard) {
+                        if (lastCard is ValueCard) {
+                            if (lastCard.getCardValue == element.getCardValue) {
+                                UnoCards.deckEnemy.remove(element)
+                                playedCards.add(element)
+                                wasCardPlayed = true
+                                break
+                            }
                         }
                     }
                 }
             }
-        }
+            whoHasTurn = "Player"
 
-        if(!wasCardPlayed){
-            for (element in UnoCards.deckEnemy){
-                if(element is ValueCard){
-                    if(lastCard is ValueCard){
-                        if (lastCard.getCardColor == element.getCardColor) {
-                            UnoCards.deckEnemy.remove(element)
-                            playedCards.add(element)
-                            wasCardPlayed = true
-                            break
-                        }
-                    }else if(lastCard is FunctionCard){
-                        if (lastCard.getCardColor == element.getCardColor) {
-                            UnoCards.deckEnemy.remove(element)
-                            playedCards.add(element)
-                            wasCardPlayed = true
-                            break
-                        }
-                    }
-                }
+            if (!wasCardPlayed) {
+                val tempCard = getRandomCard(UnoCards.playDeck)
+                UnoCards.deckEnemy.add(tempCard)
+                val message = "I had to draw a card!" // make string later for different languages
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            }
+            wasCardPlayed = false
+            if (UnoCards.deckEnemy.isEmpty()) {
+                val message = "You lose!" // make string later for different languages
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            }
+            if (UnoCards.deckEnemy.size == 1) {
+                sayUno()
             }
         }
 
-        if(!wasCardPlayed){
-            for (element in UnoCards.deckEnemy){
-                if(element is ValueCard){
-                    if(lastCard is ValueCard){
-                        if (lastCard.getCardValue == element.getCardValue) {
-                            UnoCards.deckEnemy.remove(element)
-                            playedCards.add(element)
-                            wasCardPlayed = true
-                            break
-                        }
-                    }
-                }
-            }
-        }
-
-        if(!wasCardPlayed){
-            val tempCard = getRandomCard(UnoCards.playDeck)
-            UnoCards.deckEnemy.add(tempCard)
-        }
-        if(UnoCards.deckEnemy.isEmpty()){
-            val message = "You lose!" // make string later for different languages
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-        }
-        var whoHasTurn = "Player"
     }
 }
