@@ -36,22 +36,6 @@ class GameFragment : Fragment() {
         imageView = binding.playedUnoCardView
         recyclerView = binding.rv
 
-        /*binding.drawCardButton.setOnClickListener {
-                if(UnoCards.playDeck.isEmpty()){
-                    val message = "No more Cards, Game Over!" // make string later for different languages
-                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                }else{
-                    val tempCard = getRandomCard(UnoCards.playDeck, it)
-                    UnoCards.deckPlayer.add(tempCard)
-                    recyclerView.adapter?.notifyItemInserted(UnoCards.deckPlayer.size-1)
-                }
-            }
-
-        binding.sayUnoButton.setOnClickListener {
-            val message = "UNO!"
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-        }*/
-
         binding.stopGameButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
         }
@@ -59,13 +43,13 @@ class GameFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val startingCard = getRandomCard(UnoCards.playDeck)
+        val startingCard = getRandomValueCard(UnoCards.playDeck)
         updateImage(startingCard.imageResId)
         val playedCards = PlayedCards(startingCard, context, imageView)
         super.onViewCreated(view, savedInstanceState)
         recyclerView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = RecyclerViewAdapter(this.context, {
-                selectedItem -> setImageResource(selectedItem) },
+        recyclerView.adapter = RecyclerViewAdapter(this.context/*, {
+                selectedItem -> setImageResource(selectedItem) }*/,
             IntRange(0, UnoCards.deckPlayer.size-1).toList(), playedCards) //hier wird die karte in der mitte gesetzt
 
         setDrawCardButtonListener(playedCards)
@@ -87,8 +71,8 @@ class GameFragment : Fragment() {
             } else if (playedCards.cardDrawn == false) {
                 val tempCard = getRandomCard(UnoCards.playDeck)
                 UnoCards.deckPlayer.add(tempCard)
-                recyclerView.adapter = RecyclerViewAdapter(this.context, {
-                        selectedItem -> setImageResource(selectedItem) },
+                recyclerView.adapter = RecyclerViewAdapter(this.context, /*{
+                        selectedItem -> setImageResource(selectedItem) },*/
                     IntRange(0, UnoCards.deckPlayer.size-1).toList(), playedCards)
                 recyclerView.smoothScrollToPosition(UnoCards.deckPlayer.size - 1)
                 playedCards.cardDrawn = true
@@ -103,6 +87,7 @@ class GameFragment : Fragment() {
         unoButton.setOnClickListener {
             val message = "UNO!"
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+            playedCards.saidUno = true
         }
     }
 
