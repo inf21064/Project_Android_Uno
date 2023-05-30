@@ -10,12 +10,16 @@ import com.example.project_andorid_uno.PlayedCards
 import android.content.Context
 import android.widget.Button
 import androidx.navigation.findNavController
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-class RecyclerViewAdapter (val context: Context?, private val onItemClick:(PlayingCard) -> Unit,
+class RecyclerViewAdapter (val context: Context?/*, private val onItemClick:(PlayingCard) -> Unit*/,
                            var data: List<Int>, val playedCards: PlayedCards) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>()
 {
-
+    val coroutineScope = CoroutineScope(Dispatchers.Main)
 
 
     inner class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
@@ -23,21 +27,37 @@ class RecyclerViewAdapter (val context: Context?, private val onItemClick:(Playi
         fun bind(data: PlayingCard) {
             row.setOnClickListener{
                 playedCards.playerPlay(data)
-                onItemClick.invoke(data)
                 playedCards.updateImage(playedCards.playedCards.last().imageResId)
-
-                Thread.sleep(1500)
-                if(UnoCards.deckPlayer.isEmpty()){
+                if(UnoCards.deckPlayer.isEmpty() || UnoCards.playDeck.isEmpty()){
                     it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
                 }else if(playedCards.whoHasTurn == "Enemy"){
                     playedCards.enemyPlay()
+                    if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
+                        coroutineScope.launch {
+                            delay(2000)
+                            it.findNavController()
+                                .navigate(R.id.action_gameFragment_to_resultFragment)
+                        }
+                    }
+                    coroutineScope.launch {
+                        delay(1000)
+                        playedCards.updateImage(playedCards.playedCards.last().imageResId)
+                    }
+                    while(playedCards.skipTurns != 0)
+                    {
+                        playedCards.enemyPlay()
+                        coroutineScope.launch {
+                            delay(1000)
+                            playedCards.updateImage(playedCards.playedCards.last().imageResId)
+                            if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
+                                delay(2000)
+                                it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+                            }
+                        }
+                    }
                     playedCards.whoHasTurn = "Player"
-                    playedCards.updateImage(playedCards.playedCards.last().imageResId)
                     updatePositionData()
                     notifyDataSetChanged()
-                    if(UnoCards.deckEnemy.isEmpty()){
-                            it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
-                    }
                 }
             }
         }
@@ -63,6 +83,12 @@ class RecyclerViewAdapter (val context: Context?, private val onItemClick:(Playi
                 exitProcess(0)
         }
     }
+}
+fun getRandomValueCard(list: MutableList<PlayingCard>) : PlayingCard {
+    val randomIndex = Random.nextInt(list.size);
+    val randomElement = list[randomIndex]
+    list.remove(randomElement)
+    return randomElement
 }
 fun getRandomCard(list: MutableList<PlayingCard>) : PlayingCard {
     val randomIndex = Random.nextInt(list.size);

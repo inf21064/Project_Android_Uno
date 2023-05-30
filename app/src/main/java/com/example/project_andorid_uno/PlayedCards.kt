@@ -31,7 +31,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
     }
 
     fun checkForUno() {
-        if (UnoCards.deckPlayer.size == 1) {
+        if (UnoCards.deckPlayer.size == 1 && !saidUno) {
             val message =
                 "You forgot to say Uno. Draw 2 Cards!" // make string later for different languages
             Toast.makeText(context, message, Toast.LENGTH_LONG).show()
@@ -47,6 +47,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                 }
             }
         }
+        saidUno = false
     }
 
     fun playerPlay(nextCard: PlayingCard) {
@@ -73,6 +74,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                                     nextCard.getFunctionText
                                 )
                             ) {
+                                checkForSkipOrReverse(nextCard)
                                 checkForDrawTwoPlayer(nextCard)
                                 UnoCards.deckPlayer.remove(nextCard)
                                 checkForUno()
@@ -107,6 +109,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                             checkForAny(nextCard)
                         } else if (lastCard.getCardColor == nextCard.getCardColor) {
                             checkForDrawTwoPlayer(nextCard)
+                            checkForSkipOrReverse(nextCard)
                             UnoCards.deckPlayer.remove(nextCard)
                             checkForUno()
                             playedCards.add(nextCard)
@@ -127,8 +130,6 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
     }
 
     private fun checkForAny(nextCard: FunctionCard) {
-
-        // == "Choose Color" || nextCard.getFunctionText == "Choose Color Draw Four"
         if (nextCard.getFunctionText == "Choose Color") {
             val tempCard = FunctionCard(
                 CardColor.RED/*whatever the player chooses*/,
@@ -172,6 +173,10 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
     private fun getRandomCard(list: MutableList<PlayingCard>) : PlayingCard {
+        if(list.isEmpty()){
+            val message = "No more cards.Game Over!"
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        }
         val randomIndex = Random.nextInt(list.size);
         val randomElement = list[randomIndex]
         list.remove(randomElement)
