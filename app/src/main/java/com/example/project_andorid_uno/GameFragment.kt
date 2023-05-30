@@ -65,7 +65,7 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val startingCard = getRandomCard(UnoCards.playDeck)
+        val startingCard = getRandomValueCard(UnoCards.playDeck)
         updateImage(startingCard.imageResId)
         val playedCards = PlayedCards(startingCard, context, imageView, this)
         super.onViewCreated(view, savedInstanceState)
@@ -89,9 +89,6 @@ class GameFragment : Fragment() {
     }
     fun updateImage(imageResId: Int) {
         imageView.setImageResource(imageResId)
-    }
-    private fun setImageResource(selectedItem: PlayingCard) {
-        imageView.setImageResource(selectedItem.imageResId)
     }
     private fun setDrawCardButtonListener(playedCards: PlayedCards) {
         drawButton.setOnClickListener {
