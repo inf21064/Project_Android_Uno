@@ -19,7 +19,7 @@
         <ImageView
             android:id="@+id/playedUnoCardView"
             android:layout_width="0dp"
-            android:layout_height="170dp"
+            android:layout_height="200dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
@@ -33,33 +33,54 @@
             android:id="@+id/rv"
             android:layout_width="0dp"
             android:layout_height="55dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="24dp"
             android:scrollbars="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/endTurnButton"
-            app:layout_constraintStart_toStartOf="@+id/playedUnoCardView">
+            app:layout_constraintEnd_toStartOf="@+id/drawCardButton"
+            app:layout_constraintStart_toStartOf="@+id/playedUnoCardView"
+            app:layout_constraintTop_toBottomOf="@+id/playedUnoCardView">
 
         </androidx.recyclerview.widget.RecyclerView>
 
         <Button
             android:id="@+id/drawCardButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="32dp"
             android:layout_marginBottom="32dp"
             android:text="@string/drawCardButton"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/endTurnButton"
-            app:layout_constraintStart_toStartOf="@+id/endTurnButton" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/sayUnoButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
             android:text="@string/sayUnoButton"
-            app:layout_constraintBottom_toTopOf="@+id/endTurnButton"
-            app:layout_constraintEnd_toEndOf="@+id/endTurnButton"
-            app:layout_constraintStart_toStartOf="@+id/endTurnButton" />
+            app:layout_constraintBottom_toTopOf="@+id/drawCardButton"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/botImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:contentDescription="@string/playedUnoCardViewContentDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_launcher_foreground" />
+
+        <TextView
+            android:id="@+id/botTextOutput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{botTextOutput}"
+            app:layout_constraintBottom_toBottomOf="@+id/botImageView"
+            app:layout_constraintEnd_toStartOf="@+id/botImageView"
+            app:layout_constraintTop_toTopOf="@+id/botImageView" />
 
         <ImageButton
             android:id="@+id/stopGameButton"
@@ -72,15 +93,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/close_fill0_wght400_grad0_opsz48" />
-
-        <Button
-            android:id="@+id/endTurnButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:text="@string/endTurnButton"
-            app:layout_constraintBottom_toTopOf="@+id/drawCardButton"
-            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

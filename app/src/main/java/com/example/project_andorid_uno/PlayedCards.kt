@@ -6,20 +6,14 @@ import android.widget.Toast
 import kotlin.random.Random
 import kotlin.system.exitProcess
 
-class PlayedCards(val startCard:PlayingCard, val context: Context?, private val playedCardImageView: ImageView, private val gameFragment: GameFragment) {
+class PlayedCards(val startCard:PlayingCard, val context: Context?, private val playedCardImageView: ImageView) {
 
     val playedCards: MutableList<PlayingCard> = mutableListOf(startCard)
     var whoHasTurn = "Player"
-    private var _cardDrawn = false
+    var cardDrawn = false
     var saidUno = false
     var skipTurns = 0
 
-    var cardDrawn: Boolean
-        get() = _cardDrawn
-        set(value) {
-            gameFragment.changeEndTurnButtonVisibility(value)
-            _cardDrawn = value
-        }
     fun updateImage(imageResId: Int) {
         playedCardImageView.setImageResource(imageResId)
     }

@@ -23,5 +23,4 @@
     <string name="playerImageViewIconContentDesctiption">Player Icon</string>
     <string name="botImageViewIconContentDescription">Bot Icon</string>
     <string name="pointsTextView">Points:</string>
-    <string name="endTurnButton">end Turn</string>
 </resources>
