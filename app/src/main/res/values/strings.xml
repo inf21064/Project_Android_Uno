@@ -1,3 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Project_Andorid_Uno</string>
+    <string name="welcome_text">Welcome!</string>
+    <string name="app_name">Virtual Uno Game</string>
+    <string name="hello_blank_fragment">Fragment heading</string>
+    <string name="launch_game_btn_txt">Play now</string>
+    <string name="settings">Game Settings</string>
+    <string name="game_rules_txt">The first player places a card from his hand onto the discard pile. The following applies: A card can only be placed on top of a card of the same suit or number. The black cards are special action cards with special rules (see Action Cards). If a player cannot place a matching card, he must draw a penalty card from the face-down pile. This card can be played again immediately, if it matches. If he does not have a matching card, it is the next player\'s turn. The player who discards the penultimate card must shout \"UNO! (meaning \"one\"), signaling that he has only one card left in his hand. If a player forgets this and another player notices it in time (before the next player has drawn or discarded a card), he must draw 2 penalty cards. The round is won by the player who discarded the last card. The points are added and a new round is played.</string>
+    <string name="game_rules_heading">Course of the game</string>
+    <string name="num_of_startcards">Number of cards at the beginning of the game</string>
+    <string name="apply_settings">Apply</string>
+    <string name="botTextOutputGreeting">Hello! How are you?</string>
+    <string name="botTextOutputUno">UNO !</string>
+    <string name="fragment_game_heading">Are you winning?</string>
+    <string name="fragment_result_heading">Game results</string>
+    <string name="roundsPlayedText">Rounds played :</string>
+    <string name="playedUnoCardViewContentDescription">Stack of played UNO cards</string>
+    <string name="drawCardButton">Draw</string>
+    <string name="sayUnoButton">UNO</string>
+    <string name="botImageViewContentDescription">I am the UNO-Bot</string>
+    <string name="stopGameButtonContentDescription">End game</string>
+    <string name="shareResultButtonText">Share</string>
+    <string name="playerImageViewIconContentDesctiption">Player Icon</string>
+    <string name="botImageViewIconContentDescription">Bot Icon</string>
+    <string name="pointsTextView">Points:</string>
+    <string name="endTurnButton">end Turn</string>
 </resources>
