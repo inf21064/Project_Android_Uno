@@ -70,8 +70,7 @@ class GameFragment : Fragment() {
         val playedCards = PlayedCards(startingCard, context, imageView, this)
         super.onViewCreated(view, savedInstanceState)
         recyclerView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = RecyclerViewAdapter(this.context, {
-                selectedItem -> setImageResource(selectedItem) },
+        recyclerView.adapter = RecyclerViewAdapter(this.context,
             IntRange(0, UnoCards.deckPlayer.size-1).toList(), playedCards) //hier wird die karte in der mitte gesetzt
         endTurnButton.setOnClickListener {
             playedCards.enemyPlay()
@@ -102,8 +101,7 @@ class GameFragment : Fragment() {
             } else if (playedCards.cardDrawn == false) {
                 val tempCard = getRandomCard(UnoCards.playDeck)
                 UnoCards.deckPlayer.add(tempCard)
-                recyclerView.adapter = RecyclerViewAdapter(this.context, {
-                        selectedItem -> setImageResource(selectedItem) },
+                recyclerView.adapter = RecyclerViewAdapter(this.context,
                     IntRange(0, UnoCards.deckPlayer.size-1).toList(), playedCards)
                 recyclerView.smoothScrollToPosition(UnoCards.deckPlayer.size - 1)
                 playedCards.cardDrawn = true
