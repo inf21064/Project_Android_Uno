@@ -52,7 +52,7 @@ class ResultFragment : Fragment() {
         }
         return binding.root
     }
-    fun calculatePoints(deck: MutableList<PlayingCard>): Int{
+    private fun calculatePoints(deck: MutableList<PlayingCard>): Int{
         var sum = 0
 
         for(element in deck){

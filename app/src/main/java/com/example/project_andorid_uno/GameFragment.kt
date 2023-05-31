@@ -84,6 +84,10 @@ class GameFragment : Fragment() {
         coroutineScope.launch {
             delay(1000)
             playedCards.updateImage(playedCards.playedCards.last().imageResId)
+            if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
+                delay(2000)
+                it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+            }
         }
             while(playedCards.skipTurns != 0)
             {
