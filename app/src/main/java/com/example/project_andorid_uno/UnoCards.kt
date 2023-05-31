@@ -272,6 +272,14 @@ object UnoCards {
         {
             playDeck.add(blueDrawTwo)
         }
+        if(!playDeck.contains(chooseColor))
+        {
+            playDeck.add(chooseColor)
+        }
+        if(!playDeck.contains(plusFour))
+        {
+            playDeck.add(plusFour)
+        }
     }
 
     var playDeck = mutableListOf<PlayingCard>()
@@ -296,7 +304,7 @@ object UnoCards {
     fun getEnemyDeck(numberOfCardsToDraw: Int){
         for(i in 1..numberOfCardsToDraw){
             val tempCard = getRandomCard(playDeck)
-            deckEnemy.add(tempCard)
+            deckEnemy.add(blueSkip/*tempCard*/)
         }
     }
 }

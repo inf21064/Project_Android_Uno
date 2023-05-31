@@ -105,7 +105,6 @@ class GameFragment : Fragment() {
             recyclerView.adapter = RecyclerViewAdapter(this.context,
                 IntRange(0, UnoCards.deckPlayer.size - 1).toList(), playedCards
             )
-
         }
     }
     private fun setDrawCardButtonListener(playedCards: PlayedCards) {

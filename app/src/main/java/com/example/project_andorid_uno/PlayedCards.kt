@@ -224,7 +224,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
             2 -> color=CardColor.GREEN
             3 -> color=CardColor.BLUE
         }
-        val message = "I wish: ${color}}"
+        val message = "I wish: ${color}"
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         return color
     }
