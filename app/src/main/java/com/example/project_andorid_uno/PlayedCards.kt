@@ -8,6 +8,7 @@ import kotlin.system.exitProcess
 
 class PlayedCards(val startCard:PlayingCard, val context: Context?, private val playedCardImageView: ImageView, private val gameFragment: GameFragment) {
 
+    var playedSkipReverse = false
     val playedCards: MutableList<PlayingCard> = mutableListOf(startCard)
     var whoHasTurn = "Player"
     private var _cardDrawn = false
@@ -27,6 +28,12 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
     fun checkForSkipOrReverse(playedCard: FunctionCard){
         if(playedCard.getFunctionText =="Skip" || playedCard.getFunctionText == "Reverse"){
             skipTurns++
+        }
+    }
+
+    fun checkForSkipOrReverseEnemy(playedCard: FunctionCard){
+        if(playedCard.getFunctionText =="Skip" || playedCard.getFunctionText == "Reverse"){
+            playedSkipReverse = true
         }
     }
 
@@ -52,7 +59,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
     }
 
     fun playerPlay(nextCard: PlayingCard) {
-        if(skipTurns == 0) {
+
             val lastCard = playedCards.last()
             if (lastCard::class == nextCard::class) {
                 when (nextCard) {
@@ -125,9 +132,6 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                 val message = "You win!" // make string later for different languages
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             }
-        } else{
-            skipTurns--
-        }
     }
 
     private fun checkForAny(nextCard: FunctionCard) {
@@ -230,6 +234,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
     }
 
     fun enemyPlay() {
+        playedSkipReverse = false
         cardDrawn = false
         val lastCard = playedCards.last()
         var wasCardPlayed = false
@@ -276,7 +281,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                         {
                             checkForDrawTwoEnemy(element)
                             UnoCards.deckEnemy.remove(element)
-                            checkForSkipOrReverse(element)
+                            checkForSkipOrReverseEnemy(element)
                             playedCards.add(element)
                             wasCardPlayed = true
                             break
@@ -285,7 +290,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                         if (lastCard.getCardColor == element.getCardColor) {
                             checkForDrawTwoEnemy(element)
                             UnoCards.deckEnemy.remove(element)
-                            checkForSkipOrReverse(element)
+                            checkForSkipOrReverseEnemy(element)
                             playedCards.add(element)
                             wasCardPlayed = true
                             break

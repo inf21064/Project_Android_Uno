@@ -44,11 +44,12 @@ class RecyclerViewAdapter (val context: Context?,
                         delay(1000)
                         playedCards.updateImage(playedCards.playedCards.last().imageResId)
                     }
-                    while(playedCards.skipTurns != 0)
+                    coroutineScope.launch {
+                        delay(1000)
+                    while(playedCards.playedSkipReverse == true)
                     {
-                        playedCards.skipTurns--
-                        playedCards.enemyPlay()
-                        coroutineScope.launch {
+
+                            playedCards.enemyPlay()
                             delay(1000)
                             playedCards.updateImage(playedCards.playedCards.last().imageResId)
                             if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){

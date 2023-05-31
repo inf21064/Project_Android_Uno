@@ -304,7 +304,7 @@ object UnoCards {
     fun getEnemyDeck(numberOfCardsToDraw: Int){
         for(i in 1..numberOfCardsToDraw){
             val tempCard = getRandomCard(playDeck)
-            deckEnemy.add(blueSkip/*tempCard*/)
+            deckEnemy.add(tempCard)
         }
     }
 }

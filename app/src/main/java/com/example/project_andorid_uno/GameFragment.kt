@@ -89,11 +89,12 @@ class GameFragment : Fragment() {
                 it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
             }
         }
-            while(playedCards.skipTurns != 0)
-            {
-                playedCards.skipTurns--
-                playedCards.enemyPlay()
-                coroutineScope.launch {
+            coroutineScope.launch {
+                delay(1000)
+                while(playedCards.playedSkipReverse == true)
+                {
+
+                    playedCards.enemyPlay()
                     delay(1000)
                     playedCards.updateImage(playedCards.playedCards.last().imageResId)
                     if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
