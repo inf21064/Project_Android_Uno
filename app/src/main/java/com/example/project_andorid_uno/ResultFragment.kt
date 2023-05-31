@@ -17,35 +17,32 @@ class ResultFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        /*this is for testing*/
         val pointsPlayer = calculatePoints(UnoCards.deckEnemy)
         val pointsEnemy = calculatePoints(UnoCards.deckPlayer)
+        /*this is for testing*/
         result = ResultData("${pointsPlayer}","${pointsEnemy}")
 
         val emailIntent = Intent(Intent.ACTION_SEND)
         emailIntent.type = "text/plain"
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "UNO Result")
 
-
-
         val binding = DataBindingUtil.inflate<FragmentResultBinding>(inflater,
             R.layout.fragment_result,container,false)
         binding.resultData = result
 
         binding.shareResultButton?.setOnClickListener {
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Player Points: ${pointsPlayer}" +
-                    "\nBot Points: ${result.botPoints}\nRounds Played: ${pointsEnemy}")
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Player Points:${pointsPlayer}" +
+                    "\nBot Points: ${pointsEnemy}\n")
             startActivity(Intent.createChooser(emailIntent, "Send email..."))
         }
         binding.playAgainButton.setOnClickListener {
-
+            it.findNavController().navigate(R.id.action_resultFragment_to_gameFragment)
             val fragment = settingsFragment()
             UnoCards.refreshPlayDeck()
             UnoCards.deckPlayer.clear()
             UnoCards.getPlayerDeck(fragment.getNumOfCards())
             UnoCards.deckEnemy.clear()
             UnoCards.getEnemyDeck(fragment.getNumOfCards())
-            it.findNavController().navigate(R.id.action_resultFragment_to_gameFragment)
         }
         binding.returnHomeButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_resultFragment_to_homeFragment)
@@ -66,6 +63,6 @@ class ResultFragment : Fragment() {
                     }
             }
         }
-            return sum
+        return sum
     }
 }
