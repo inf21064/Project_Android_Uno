@@ -9,6 +9,7 @@ import kotlin.system.exitProcess
 import com.example.project_andorid_uno.PlayedCards
 import android.content.Context
 import android.widget.Button
+import android.widget.Toast
 import androidx.navigation.findNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -96,8 +97,8 @@ fun getRandomValueCard(list: MutableList<PlayingCard>) : PlayingCard {
     }
 }
 fun getRandomCard(list: MutableList<PlayingCard>) : PlayingCard {
-    val randomIndex = Random.nextInt(list.size);
-    val randomElement = list[randomIndex]
-    list.remove(randomElement)
-    return randomElement
-}
+        val randomIndex = Random.nextInt(list.size);
+        val randomElement = list[randomIndex]
+        list.remove(randomElement)
+        return randomElement
+    }

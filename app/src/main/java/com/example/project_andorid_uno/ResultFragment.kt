@@ -18,19 +18,23 @@ class ResultFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         /*this is for testing*/
-        result = ResultData("1","2", "3")
+        val pointsPlayer = calculatePoints(UnoCards.deckEnemy)
+        val pointsEnemy = calculatePoints(UnoCards.deckPlayer)
+        result = ResultData("${pointsPlayer}","${pointsEnemy}")
 
         val emailIntent = Intent(Intent.ACTION_SEND)
         emailIntent.type = "text/plain"
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "UNO Result")
+
+
 
         val binding = DataBindingUtil.inflate<FragmentResultBinding>(inflater,
             R.layout.fragment_result,container,false)
         binding.resultData = result
 
         binding.shareResultButton?.setOnClickListener {
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Player Points: ${result.playerPoints}" +
-                    "\nBot Points: ${result.botPoints}\nRounds Played: ${result.roundsPlayed}")
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Player Points: ${pointsPlayer}" +
+                    "\nBot Points: ${result.botPoints}\nRounds Played: ${pointsEnemy}")
             startActivity(Intent.createChooser(emailIntent, "Send email..."))
         }
         binding.playAgainButton.setOnClickListener {
@@ -47,5 +51,21 @@ class ResultFragment : Fragment() {
             it.findNavController().navigate(R.id.action_resultFragment_to_homeFragment)
         }
         return binding.root
+    }
+    fun calculatePoints(deck: MutableList<PlayingCard>): Int{
+        var sum = 0
+
+        for(element in deck){
+            when(element){
+                is ValueCard -> sum = sum
+                is FunctionCard ->
+                    if(element.getFunctionText == "Reverse"||element.getFunctionText == "Skip"||element.getFunctionText == "Draw Two"){
+                        sum += 20
+                    }else if(element.getFunctionText == "Choose Color" || element.getFunctionText == "Choose Color Draw Four"){
+                        sum += 50
+                    }
+            }
+        }
+            return sum
     }
 }
