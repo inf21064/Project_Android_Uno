@@ -16,7 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-class RecyclerViewAdapter (val context: Context?/*, private val onItemClick:(PlayingCard) -> Unit*/,
+class RecyclerViewAdapter (val context: Context?,
                            var data: List<Int>, val playedCards: PlayedCards) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>()
 {
     val coroutineScope = CoroutineScope(Dispatchers.Main)
@@ -45,6 +45,7 @@ class RecyclerViewAdapter (val context: Context?/*, private val onItemClick:(Pla
                     }
                     while(playedCards.skipTurns != 0)
                     {
+                        playedCards.skipTurns--
                         playedCards.enemyPlay()
                         coroutineScope.launch {
                             delay(1000)
@@ -85,10 +86,14 @@ class RecyclerViewAdapter (val context: Context?/*, private val onItemClick:(Pla
     }
 }
 fun getRandomValueCard(list: MutableList<PlayingCard>) : PlayingCard {
-    val randomIndex = Random.nextInt(list.size);
-    val randomElement = list[randomIndex]
-    list.remove(randomElement)
-    return randomElement
+    while(true){
+        val randomIndex = Random.nextInt(list.size);
+        val randomElement = list[randomIndex]
+        if(randomElement is ValueCard){
+            list.remove(randomElement)
+            return randomElement
+        }
+    }
 }
 fun getRandomCard(list: MutableList<PlayingCard>) : PlayingCard {
     val randomIndex = Random.nextInt(list.size);

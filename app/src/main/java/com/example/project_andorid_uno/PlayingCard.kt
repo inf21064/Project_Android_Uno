@@ -1,9 +1,11 @@
 package com.example.project_andorid_uno
 
-abstract class PlayingCard(private val color: CardColor , val imageResId: Int) {
+abstract class PlayingCard(val color: CardColor , val imageResId: Int) {
     var getCardColor : CardColor = color
 
     abstract fun getterImageResId(): Int
+
+    abstract fun copy(): PlayingCard
     override fun toString() : String = color.toString()
 
 

@@ -225,6 +225,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
         if(skipTurns != 0)
         {
             skipTurns--
+
         }else {
             for (element in UnoCards.deckEnemy) {
                 if (element is FunctionCard) {
@@ -245,7 +246,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                                 R.drawable.wild_draw_four_card_clipart_md
                             )
                             for (i in 1..4) {
-                                UnoCards.deckPlayer.add(getRandomCard(UnoCards.deck))
+                                UnoCards.deckPlayer.add(getRandomCard(UnoCards.playDeck))
                             }
                             UnoCards.deckEnemy.remove(element)
                             playedCards.add(tempCard)
@@ -316,7 +317,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                 val tempCard = getRandomCard(UnoCards.playDeck)
                 UnoCards.deckEnemy.add(tempCard)
                 val message = "I had to draw a card!" // make string later for different languages
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             }
             wasCardPlayed = false
             if (UnoCards.deckEnemy.isEmpty()) {

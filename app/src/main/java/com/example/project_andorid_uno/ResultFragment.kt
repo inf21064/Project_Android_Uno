@@ -34,13 +34,14 @@ class ResultFragment : Fragment() {
             startActivity(Intent.createChooser(emailIntent, "Send email..."))
         }
         binding.playAgainButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_resultFragment_to_gameFragment)
+
             val fragment = settingsFragment()
-            UnoCards.playDeck = UnoCards.deck
+            UnoCards.refreshPlayDeck()
             UnoCards.deckPlayer.clear()
             UnoCards.getPlayerDeck(fragment.getNumOfCards())
             UnoCards.deckEnemy.clear()
             UnoCards.getEnemyDeck(fragment.getNumOfCards())
+            it.findNavController().navigate(R.id.action_resultFragment_to_gameFragment)
         }
         binding.returnHomeButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_resultFragment_to_homeFragment)
