@@ -3,17 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <data>
-        <variable
-            name="botTextOutput"
-            type="String" />
-    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ConstraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#0097A7"
+        android:fadingEdge="vertical|none"
         tools:context=".GameFragment">
 
         <ImageView
@@ -34,6 +30,21 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="135dp" />
+
+        <TextView
+            android:id="@+id/chooseColorTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="#F57C00"
+            android:paddingStart="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:text="@string/chooseColorTextView"
+            app:layout_constraintBottom_toTopOf="@+id/chooseColorRadioButtonGroup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
@@ -88,6 +99,49 @@
             app:layout_constraintEnd_toStartOf="@+id/drawCardButton"
             app:layout_constraintStart_toEndOf="@+id/sayUnoButton"
             app:layout_constraintTop_toTopOf="@+id/drawCardButton" />
+
+        <RadioGroup
+            android:id="@+id/chooseColorRadioButtonGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="24dp"
+            android:background="#F57C00"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/endTurnButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <RadioButton
+                android:id="@+id/redRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/redCheckBox" />
+
+            <RadioButton
+                android:id="@+id/greenRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/greenCheckBox" />
+
+            <RadioButton
+                android:id="@+id/yellowRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/yellowCheckBox" />
+
+            <RadioButton
+                android:id="@+id/blueRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/blueCheckBox" />
+
+        </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

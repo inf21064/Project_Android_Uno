@@ -29,6 +29,11 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
             skipTurns++
         }
     }
+    fun setCardColor(cardColor: CardColor){
+        playedCards.last().color = cardColor
+    }
+
+
 
     fun checkForUno() {
         if (UnoCards.deckPlayer.size == 1 && !saidUno) {
@@ -57,7 +62,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                 when (nextCard) {
                     is ValueCard -> {
                         lastCard as ValueCard
-                        if (lastCard.getCardColor == nextCard.getCardColor || lastCard.getCardValue == nextCard.getCardValue) {
+                        if (lastCard.color == nextCard.color || lastCard.getCardValue == nextCard.getCardValue) {
                             UnoCards.deckPlayer.remove(nextCard)
                             checkForUno()
                             playedCards.add(nextCard)
@@ -67,10 +72,10 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                         }
                     }
                     is FunctionCard -> {
-                        if (nextCard.getCardColor.toString() == "Any") {
+                        if (nextCard.color.toString() == "Any") {
                             checkForAny(nextCard)
                         } else if (lastCard is FunctionCard) {
-                            if (lastCard.getCardColor == nextCard.getCardColor || lastCard.getFunctionText.equals(
+                            if (lastCard.color == nextCard.color || lastCard.getFunctionText.equals(
                                     nextCard.getFunctionText
                                 )
                             ) {
@@ -94,7 +99,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                 when (nextCard) {
                     is ValueCard -> {
                         lastCard as FunctionCard
-                        if (lastCard.getCardColor == nextCard.getCardColor) {
+                        if (lastCard.color == nextCard.color) {
                             UnoCards.deckPlayer.remove(nextCard)
                             checkForUno()
                             playedCards.add(nextCard)
@@ -105,9 +110,9 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                     }
                     is FunctionCard -> {
                         lastCard as ValueCard
-                        if (nextCard.getCardColor.toString() == "Any") {
+                        if (nextCard.color.toString() == "Any") {
                             checkForAny(nextCard)
-                        } else if (lastCard.getCardColor == nextCard.getCardColor) {
+                        } else if (lastCard.color == nextCard.color) {
                             checkForDrawTwoPlayer(nextCard)
                             checkForSkipOrReverse(nextCard)
                             UnoCards.deckPlayer.remove(nextCard)
@@ -128,11 +133,18 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
             skipTurns--
         }
     }
+    var playerChoosesColor : CardColor
+        get() = CardColor.RED
+        set(value) {
+            playedCards.last().color = value
+        }
 
     private fun checkForAny(nextCard: FunctionCard) {
         if (nextCard.getFunctionText == "Choose Color") {
+            gameFragment.changeChooseColorVisibility(true)
+            ///////////////////////////////////////////////////////////////
             val tempCard = FunctionCard(
-                CardColor.RED/*whatever the player chooses*/,
+                playerChoosesColor,
                 "Choose Color",
                 R.drawable.wild_card_clipart_md
             )
@@ -141,8 +153,9 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
             playedCards.add(tempCard)
             whoHasTurn = "Enemy"
         } else {
+            gameFragment.changeChooseColorVisibility(true)
             val tempCard = FunctionCard(
-                CardColor.RED/*whatever the player chooses*/,
+                playerChoosesColor,
                 "Choose Color Draw Four",
                 R.drawable.wild_draw_four_card_clipart_md
             )
@@ -228,7 +241,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
         }else {
             for (element in UnoCards.deckEnemy) {
                 if (element is FunctionCard) {
-                    if (element.getCardColor.toString() == "Any") {
+                    if (element.color.toString() == "Any") {
                         if (element.getFunctionText == "Choose Color") {
                             val tempCard = FunctionCard(
                                 CardColor.RED, "Choose Color", R.drawable.wild_card_clipart_md
@@ -253,7 +266,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                             break
                         }
                     } else if (lastCard is FunctionCard) {
-                        if (lastCard.getCardColor == element.getCardColor || lastCard.getFunctionText == element.getFunctionText)
+                        if (lastCard.color == element.color || lastCard.getFunctionText == element.getFunctionText)
                         {
                             checkForDrawTwoEnemy(element)
                             UnoCards.deckEnemy.remove(element)
@@ -263,7 +276,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                             break
                         }
                     } else if (lastCard is ValueCard) {
-                        if (lastCard.getCardColor == element.getCardColor) {
+                        if (lastCard.color == element.color) {
                             checkForDrawTwoEnemy(element)
                             UnoCards.deckEnemy.remove(element)
                             checkForSkipOrReverse(element)
@@ -278,14 +291,14 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                 for (element in UnoCards.deckEnemy) {
                     if (element is ValueCard) {
                         if (lastCard is ValueCard) {
-                            if (lastCard.getCardColor == element.getCardColor) {
+                            if (lastCard.color == element.color) {
                                 UnoCards.deckEnemy.remove(element)
                                 playedCards.add(element)
                                 wasCardPlayed = true
                                 break
                             }
                         } else if (lastCard is FunctionCard) {
-                            if (lastCard.getCardColor == element.getCardColor) {
+                            if (lastCard.color == element.color) {
                                 UnoCards.deckEnemy.remove(element)
                                 playedCards.add(element)
                                 wasCardPlayed = true

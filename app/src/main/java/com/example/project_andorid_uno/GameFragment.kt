@@ -1,6 +1,7 @@
 package com.example.project_andorid_uno
 
 import android.content.Context
+import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,8 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,13 +25,13 @@ import kotlin.random.Random
 import kotlin.system.exitProcess
 
 class GameFragment : Fragment() {
-    lateinit var imageView: ImageView
-    lateinit var recyclerView: RecyclerView
-
+    private lateinit var imageView: ImageView
+    private lateinit var recyclerView: RecyclerView
     private lateinit var drawButton: Button
     private lateinit var unoButton: Button
     private lateinit var endTurnButton: Button
-
+    private lateinit var chooseColorTextView: TextView
+    private lateinit var chooseColorRadioButtonGroup: RadioGroup
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,8 +45,9 @@ class GameFragment : Fragment() {
         unoButton = binding.sayUnoButton
         imageView = binding.playedUnoCardView
         recyclerView = binding.rv
-
-
+        chooseColorTextView = binding.chooseColorTextView!!
+        chooseColorRadioButtonGroup = binding.chooseColorRadioButtonGroup!!
+        changeChooseColorVisibility(false)
 
         /*binding.drawCardButton.setOnClickListener {
                 if(UnoCards.playDeck.isEmpty()){
@@ -76,6 +84,18 @@ class GameFragment : Fragment() {
         endTurnButton.setOnClickListener {
             playedCards.enemyPlay()
         }
+        chooseColorRadioButtonGroup.setOnCheckedChangeListener { group, checkedRadioButtonId ->
+            val radioButton = group.findViewById<RadioButton>(checkedRadioButtonId)
+            var cardColor : CardColor = CardColor.RED
+            when(radioButton.text.toString()) {
+                R.string.redCheckBox.toString() -> cardColor = CardColor.RED
+                R.string.yellowCheckBox.toString() -> cardColor = CardColor.YELLOW
+                R.string.greenCheckBox.toString() -> cardColor = CardColor.GREEN
+                R.string.blueCheckBox.toString() -> cardColor = CardColor.BLUE
+            }
+            playedCards.setCardColor(cardColor)
+            changeChooseColorVisibility(false)
+        }
         setDrawCardButtonListener(playedCards)
         setUnoButtonListener(playedCards)
     }
@@ -88,6 +108,16 @@ class GameFragment : Fragment() {
             drawButton.visibility = View.VISIBLE
         }
     }
+    fun changeChooseColorVisibility(setParameter: Boolean){
+        if (setParameter) {
+            chooseColorTextView.visibility = View.VISIBLE
+            chooseColorRadioButtonGroup.visibility = View.VISIBLE
+        } else {
+            chooseColorTextView.visibility = View.INVISIBLE
+            chooseColorRadioButtonGroup.visibility = View.INVISIBLE
+        }
+    }
+
     fun updateImage(imageResId: Int) {
         imageView.setImageResource(imageResId)
     }

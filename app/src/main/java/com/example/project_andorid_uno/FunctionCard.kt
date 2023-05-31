@@ -4,7 +4,7 @@ open class FunctionCard(color: CardColor, private val function: String, imageRes
     val getFunctionText :String = function
 
     fun setCardColor(color: CardColor){
-        super.getCardColor = color
+        super.color = color
     }
 
     override fun getterImageResId(): Int {
