@@ -34,6 +34,7 @@ class GameFragment : Fragment() {
             R.layout.fragment_game,container,false)
         drawButton = binding.drawCardButton
         endTurnButton = binding.endTurnButton
+        endTurnButton.visibility = View.INVISIBLE
         unoButton = binding.sayUnoButton
         imageView = binding.playedUnoCardView
         recyclerView = binding.rv
