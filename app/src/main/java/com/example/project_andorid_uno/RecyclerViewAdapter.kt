@@ -9,6 +9,7 @@ import kotlin.system.exitProcess
 import com.example.project_andorid_uno.PlayedCards
 import android.content.Context
 import android.widget.Button
+import android.widget.Toast
 import androidx.navigation.findNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-class RecyclerViewAdapter (val context: Context?/*, private val onItemClick:(PlayingCard) -> Unit*/,
+class RecyclerViewAdapter (val context: Context?,
                            var data: List<Int>, val playedCards: PlayedCards) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>()
 {
     val coroutineScope = CoroutineScope(Dispatchers.Main)
@@ -43,10 +44,12 @@ class RecyclerViewAdapter (val context: Context?/*, private val onItemClick:(Pla
                         delay(1000)
                         playedCards.updateImage(playedCards.playedCards.last().imageResId)
                     }
-                    while(playedCards.skipTurns != 0)
+                    coroutineScope.launch {
+                        delay(1000)
+                    while(playedCards.playedSkipReverse == true)
                     {
-                        playedCards.enemyPlay()
-                        coroutineScope.launch {
+
+                            playedCards.enemyPlay()
                             delay(1000)
                             playedCards.updateImage(playedCards.playedCards.last().imageResId)
                             if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
@@ -85,14 +88,18 @@ class RecyclerViewAdapter (val context: Context?/*, private val onItemClick:(Pla
     }
 }
 fun getRandomValueCard(list: MutableList<PlayingCard>) : PlayingCard {
-    val randomIndex = Random.nextInt(list.size);
-    val randomElement = list[randomIndex]
-    list.remove(randomElement)
-    return randomElement
+    while(true){
+        val randomIndex = Random.nextInt(list.size);
+        val randomElement = list[randomIndex]
+        if(randomElement is ValueCard){
+            list.remove(randomElement)
+            return randomElement
+        }
+    }
 }
 fun getRandomCard(list: MutableList<PlayingCard>) : PlayingCard {
-    val randomIndex = Random.nextInt(list.size);
-    val randomElement = list[randomIndex]
-    list.remove(randomElement)
-    return randomElement
-}
+        val randomIndex = Random.nextInt(list.size);
+        val randomElement = list[randomIndex]
+        list.remove(randomElement)
+        return randomElement
+    }

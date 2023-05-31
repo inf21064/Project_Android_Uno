@@ -11,6 +11,10 @@ open class FunctionCard(color: CardColor, private val function: String, imageRes
         return imageResId
     }
 
+    override fun copy(): FunctionCard {
+        return FunctionCard(color, function, imageResId)
+    }
+
     override fun toString(): String {
         return "${super.toString()}: $function"
     }
