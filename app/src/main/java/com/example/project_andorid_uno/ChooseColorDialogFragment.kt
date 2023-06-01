@@ -7,10 +7,11 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 
 class ChooseColorDialogFragment : DialogFragment() {
-    private lateinit var listener: OnOptionSelectedListener
-    interface OnOptionSelectedListener {
-        fun onOptionSelected(color: CardColor)
+    interface DialogCallback {
+        fun onColorSelected(color: CardColor)
     }
+
+    private var callback: DialogCallback? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val options = arrayOf(CardColor.RED.toString(), CardColor.BLUE.toString(), CardColor.GREEN.toString(), CardColor.YELLOW.toString())
@@ -19,19 +20,20 @@ class ChooseColorDialogFragment : DialogFragment() {
         builder.setTitle("Choose a color")
             .setSingleChoiceItems(options, -1) { dialog :DialogInterface, which:Int ->
                 val selectedOption = options[which]
-                when(selectedOption) {
+                /*when(selectedOption) {
                     CardColor.RED.toString() -> listener.onOptionSelected(CardColor.RED)
                     CardColor.BLUE.toString() -> listener.onOptionSelected(CardColor.BLUE)
                     CardColor.GREEN.toString() -> listener.onOptionSelected(CardColor.GREEN)
                     CardColor.YELLOW.toString() -> listener.onOptionSelected(CardColor.YELLOW)
-                }
+                }*/
+                callback?.onColorSelected(CardColor.valueOf(selectedOption))
                 dialog.dismiss()
             }
         return builder.create()
     }
 
-    fun setOnOptionSelectedListener(listener: OnOptionSelectedListener) {
-        this.listener = listener
+    fun setDialogCallback(callback: DialogCallback) {
+        this.callback = callback
     }
 
 }

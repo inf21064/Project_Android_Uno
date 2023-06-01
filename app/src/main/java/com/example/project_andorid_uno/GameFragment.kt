@@ -1,7 +1,5 @@
 package com.example.project_andorid_uno
 
-import android.content.Context
-import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,26 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.DataBindingUtil.setContentView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.project_andorid_uno.databinding.FragmentGameBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlin.random.Random
-import kotlin.system.exitProcess
+import kotlinx.coroutines.*
 
-class GameFragment : Fragment(), ChooseColorDialogFragment.OnOptionSelectedListener {
+class GameFragment : Fragment() {
     private lateinit var imageView: ImageView
     private lateinit var recyclerView: RecyclerView
     private lateinit var drawButton: Button
@@ -70,15 +59,20 @@ class GameFragment : Fragment(), ChooseColorDialogFragment.OnOptionSelectedListe
         setDrawCardButtonListener(playedCards)
         setUnoButtonListener(playedCards)
     }
-    fun launchChooseColorDialogFragment() {
-        //why does it do the following code async?
+
+    suspend fun launchChooseColorDialogFragment() : CardColor = withContext(Dispatchers.Main) {
         val chooseColorDialogFragment = ChooseColorDialogFragment()
-        chooseColorDialogFragment.setOnOptionSelectedListener(this)
-        chooseColorDialogFragment.show(childFragmentManager, "ChooseColorDialogFragment")
-        childFragmentManager.executePendingTransactions()
+        val pendingColorResult = CompletableDeferred<CardColor>()
+        chooseColorDialogFragment.setDialogCallback(object : ChooseColorDialogFragment.DialogCallback {
+            override fun onColorSelected(color: CardColor) {
+                pendingColorResult.complete(color)
+            }
+        })
+                chooseColorDialogFragment.show(childFragmentManager, "ChooseColorDialogFragment")
+
+            pendingColorResult.await()
     }
     fun changeEndTurnButtonVisibility(setParameter: Boolean){
-
         if (setParameter) {
             endTurnButton.visibility = View.VISIBLE
             drawButton.visibility = View.INVISIBLE
@@ -152,9 +146,9 @@ class GameFragment : Fragment(), ChooseColorDialogFragment.OnOptionSelectedListe
         }
     }
 
-    override fun onOptionSelected(color: CardColor) {
+    /*override fun onOptionSelected(color: CardColor) {
         //Handle the selected option
         Toast.makeText(context, color.toString(), Toast.LENGTH_LONG)
-    }
+    }*/
 
 }

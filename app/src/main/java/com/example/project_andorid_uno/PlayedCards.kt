@@ -8,7 +8,10 @@ import kotlinx.coroutines.*
 import kotlin.random.Random
 import kotlin.system.exitProcess
 
-class PlayedCards(val startCard:PlayingCard, val context: Context?, private val playedCardImageView: ImageView, private val gameFragment: GameFragment) {
+class PlayedCards(val startCard:PlayingCard,
+                  val context: Context?,
+                  private val playedCardImageView: ImageView,
+                  private val gameFragment: GameFragment) {
 
     var playedSkipReverse = false
     val playedCards: MutableList<PlayingCard> = mutableListOf(startCard)
@@ -135,29 +138,34 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             }
     }
-    var playerChoosesColor : CardColor
+    /*var playerChoosesColor : CardColor
         get() = CardColor.RED
         set(value) {
             playedCards.last().color = value
+        }*/
+    private fun checkForAny(nextCard: FunctionCard) {
+        lateinit var selectedColor: CardColor
+        val scope = CoroutineScope(Dispatchers.Main)
+        val pendingResult = scope.async {
+            //selectedColor = gameFragment.launchChooseColorDialogFragment()
+            CardColor.RED
+        }
+        scope.launch {
+            selectedColor = pendingResult.await()
         }
 
-    private fun checkForAny(nextCard: FunctionCard) {
 
-        gameFragment.launchChooseColorDialogFragment()
+        lateinit var tempCard: FunctionCard
 
         if (nextCard.getFunctionText == "Choose Color") {
-            val tempCard = FunctionCard(
-                playerChoosesColor,
+            tempCard = FunctionCard(
+                selectedColor,
                 "@choose Color",
                 R.drawable.wild_card_clipart_md
             )
-            UnoCards.deckPlayer.remove(nextCard)
-            checkForUno()
-            playedCards.add(tempCard)
-            whoHasTurn = "Enemy"
         } else {
-            val tempCard = FunctionCard(
-                playerChoosesColor,
+            tempCard = FunctionCard(
+                selectedColor,
                 "@Choose Color Draw Four",
                 R.drawable.wild_draw_four_card_clipart_md
             )
@@ -173,11 +181,12 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                 }
 
             }
-            UnoCards.deckPlayer.remove(nextCard)
-            checkForUno()
-            playedCards.add(tempCard)
-            whoHasTurn = "Enemy"
+
         }
+        UnoCards.deckPlayer.remove(nextCard)
+        checkForUno()
+        playedCards.add(tempCard)
+        whoHasTurn = "Enemy"
     }
 
     private fun <T: PlayingCard>notAllowed(lastCard: T,nextCard: T) : Unit {
