@@ -17,8 +17,10 @@ class ResultFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val pointsPlayer = calculatePoints(UnoCards.deckEnemy)
+        val pointsEnemy = calculatePoints(UnoCards.deckPlayer)
         /*this is for testing*/
-        result = ResultData("1","2", "3")
+        result = ResultData("${pointsPlayer}","${pointsEnemy}")
 
         val emailIntent = Intent(Intent.ACTION_SEND)
         emailIntent.type = "text/plain"
@@ -29,14 +31,14 @@ class ResultFragment : Fragment() {
         binding.resultData = result
 
         binding.shareResultButton?.setOnClickListener {
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Player Points: ${result.playerPoints}" +
-                    "\nBot Points: ${result.botPoints}\nRounds Played: ${result.roundsPlayed}")
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Player Points:${pointsPlayer}" +
+                    "\nBot Points: ${pointsEnemy}\n")
             startActivity(Intent.createChooser(emailIntent, "Send email..."))
         }
         binding.playAgainButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_resultFragment_to_gameFragment)
             val fragment = settingsFragment()
-            UnoCards.playDeck = UnoCards.deck
+            UnoCards.refreshPlayDeck()
             UnoCards.deckPlayer.clear()
             UnoCards.getPlayerDeck(fragment.getNumOfCards())
             UnoCards.deckEnemy.clear()
@@ -46,5 +48,21 @@ class ResultFragment : Fragment() {
             it.findNavController().navigate(R.id.action_resultFragment_to_homeFragment)
         }
         return binding.root
+    }
+    private fun calculatePoints(deck: MutableList<PlayingCard>): Int{
+        var sum = 0
+
+        for(element in deck){
+            when(element){
+                is ValueCard -> sum = sum
+                is FunctionCard ->
+                    if(element.getFunctionText == "Reverse"||element.getFunctionText == "Skip"||element.getFunctionText == "Draw Two"){
+                        sum += 20
+                    }else if(element.getFunctionText == "Choose Color" || element.getFunctionText == "Choose Color Draw Four"){
+                        sum += 50
+                    }
+            }
+        }
+        return sum
     }
 }

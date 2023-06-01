@@ -10,6 +10,7 @@ import kotlin.system.exitProcess
 
 class PlayedCards(val startCard:PlayingCard, val context: Context?, private val playedCardImageView: ImageView, private val gameFragment: GameFragment) {
 
+    var playedSkipReverse = false
     val playedCards: MutableList<PlayingCard> = mutableListOf(startCard)
     var whoHasTurn = "Player"
     private var _cardDrawn = false
@@ -32,19 +33,26 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
         }
     }
 
+    fun checkForSkipOrReverseEnemy(playedCard: FunctionCard){
+        if(playedCard.getFunctionText =="Skip" || playedCard.getFunctionText == "Reverse"){
+            playedSkipReverse = true
+        }
+    }
+
     fun checkForUno() {
         if (UnoCards.deckPlayer.size == 1 && !saidUno) {
             val message =
                 "You forgot to say Uno. Draw 2 Cards!" // make string later for different languages
             Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             for (i in 1..2) {
-                val tempCard = getRandomCard(UnoCards.playDeck)
+
                 if (UnoCards.playDeck.isEmpty()) {
                     val message =
                         "No more Cards, Game Over!" // make string later for different languages
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     break
                 } else {
+                    val tempCard = getRandomCard(UnoCards.playDeck)
                     UnoCards.deckPlayer.add(tempCard)
                 }
             }
@@ -53,7 +61,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
     }
 
     fun playerPlay(nextCard: PlayingCard) {
-        if(skipTurns == 0) {
+
             val lastCard = playedCards.last()
             if (lastCard::class == nextCard::class) {
                 when (nextCard) {
@@ -126,9 +134,6 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                 val message = "You win!" // make string later for different languages
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             }
-        } else{
-            skipTurns--
-        }
     }
     var playerChoosesColor : CardColor
         get() = CardColor.RED
@@ -162,9 +167,11 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                         "No more Cards, Game Over!" // make string later for different languages
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     break
+                }else{
+                    val tempCard2 = getRandomCard(UnoCards.playDeck)
+                    UnoCards.deckEnemy.add(tempCard2)
                 }
-                val tempCard2 = getRandomCard(UnoCards.playDeck)
-                UnoCards.deckEnemy.add(tempCard2)
+
             }
             UnoCards.deckPlayer.remove(nextCard)
             checkForUno()
@@ -183,27 +190,22 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
     private fun getRandomCard(list: MutableList<PlayingCard>) : PlayingCard {
-        if(list.isEmpty()){
-            val message = "No more cards.Game Over!"
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-        }
-        val randomIndex = Random.nextInt(list.size);
-        val randomElement = list[randomIndex]
-        list.remove(randomElement)
-        return randomElement
+            val randomIndex = Random.nextInt(list.size);
+            val randomElement = list[randomIndex]
+            list.remove(randomElement)
+            return randomElement
     }
-
-
     private fun checkForDrawTwoPlayer(card: FunctionCard){
         if(card.getFunctionText.equals("Draw Two"))
         {
             for (i in 1..2) {
-                val tempCard = getRandomCard(UnoCards.playDeck)
+
                 if(UnoCards.playDeck.isEmpty()){
                     val message = "No more Cards, Game Over!" // make string later for different languages
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     break
                 } else {
+                    val tempCard = getRandomCard(UnoCards.playDeck)
                     UnoCards.deckEnemy.add(tempCard)
                 }
 
@@ -227,7 +229,22 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
         }
     }
 
+    fun chooseRandomColor(): CardColor{
+        var color =CardColor.RED
+        val randomIndex = Random.nextInt(4);
+        when(randomIndex){
+            0 -> color=CardColor.RED
+            1 -> color=CardColor.YELLOW
+            2 -> color=CardColor.GREEN
+            3 -> color=CardColor.BLUE
+        }
+        val message = "I wish: ${color}"
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        return color
+    }
+
     fun enemyPlay() {
+        playedSkipReverse = false
         cardDrawn = false
         val lastCard = playedCards.last()
         var wasCardPlayed = false
@@ -235,27 +252,34 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
         if(skipTurns != 0)
         {
             skipTurns--
+
         }else {
             for (element in UnoCards.deckEnemy) {
                 if (element is FunctionCard) {
-                    if (element.color.toString() == "Any") {
+                    if (element.color == CardColor.ANY) {
                         if (element.getFunctionText == "Choose Color") {
                             val tempCard = FunctionCard(
-                                CardColor.RED, "Choose Color", R.drawable.wild_card_clipart_md
+                                chooseRandomColor(), "Choose Color", R.drawable.wild_card_clipart_md
                             )
-                            //noch anzeigen was er sich wünscht, was er sich wünscht random machen
                             UnoCards.deckEnemy.remove(element)
                             playedCards.add(tempCard)
                             wasCardPlayed = true
                             break
                         } else {
                             val tempCard = FunctionCard(
-                                CardColor.RED,
+                                chooseRandomColor(),
                                 "Choose Color Draw Four",
                                 R.drawable.wild_draw_four_card_clipart_md
                             )
                             for (i in 1..4) {
-                                UnoCards.deckPlayer.add(getRandomCard(UnoCards.deck))
+                                if(UnoCards.playDeck.isEmpty()){
+                                    val message = "No more cards.Game Over!"
+                                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                                    break
+                                }else{
+                                    UnoCards.deckPlayer.add(getRandomCard(UnoCards.playDeck))
+                                }
+
                             }
                             UnoCards.deckEnemy.remove(element)
                             playedCards.add(tempCard)
@@ -267,7 +291,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                         {
                             checkForDrawTwoEnemy(element)
                             UnoCards.deckEnemy.remove(element)
-                            checkForSkipOrReverse(element)
+                            checkForSkipOrReverseEnemy(element)
                             playedCards.add(element)
                             wasCardPlayed = true
                             break
@@ -276,7 +300,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                         if (lastCard.color == element.color) {
                             checkForDrawTwoEnemy(element)
                             UnoCards.deckEnemy.remove(element)
-                            checkForSkipOrReverse(element)
+                            checkForSkipOrReverseEnemy(element)
                             playedCards.add(element)
                             wasCardPlayed = true
                             break
@@ -323,10 +347,16 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
             whoHasTurn = "Player"
 
             if (!wasCardPlayed) {
-                val tempCard = getRandomCard(UnoCards.playDeck)
-                UnoCards.deckEnemy.add(tempCard)
-                val message = "I had to draw a card!" // make string later for different languages
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                if(UnoCards.playDeck.isEmpty()){
+                    val message = "No more cards.Game Over!"
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                }else{
+                    val tempCard = getRandomCard(UnoCards.playDeck)
+                    UnoCards.deckEnemy.add(tempCard)
+                    val message = "I had to draw a card!" // make string later for different languages
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+
             }
             wasCardPlayed = false
             if (UnoCards.deckEnemy.isEmpty()) {

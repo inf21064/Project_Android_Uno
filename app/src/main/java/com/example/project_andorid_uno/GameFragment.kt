@@ -21,6 +21,10 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.project_andorid_uno.databinding.FragmentGameBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 import kotlin.system.exitProcess
 
@@ -45,28 +49,9 @@ class GameFragment : Fragment(), ChooseColorDialogFragment.OnOptionSelectedListe
         unoButton = binding.sayUnoButton
         imageView = binding.playedUnoCardView
         recyclerView = binding.rv
-        chooseColorTextView = binding.chooseColorTextView!!
-        chooseColorRadioButtonGroup = binding.chooseColorRadioButtonGroup!!
-        changeChooseColorVisibility(false)
-
-        /*binding.drawCardButton.setOnClickListener {
-                if(UnoCards.playDeck.isEmpty()){
-                    val message = "No more Cards, Game Over!" // make string later for different languages
-                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                }else{
-                    val tempCard = getRandomCard(UnoCards.playDeck, it)
-                    UnoCards.deckPlayer.add(tempCard)
-                    recyclerView.adapter?.notifyItemInserted(UnoCards.deckPlayer.size-1)
-                }
-            }
-
-        binding.sayUnoButton.setOnClickListener {
-            val message = "UNO!"
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-        }*/
 
         binding.stopGameButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+            it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)  // player ends game with reset button
         }
 
         return binding.root
@@ -80,22 +65,8 @@ class GameFragment : Fragment(), ChooseColorDialogFragment.OnOptionSelectedListe
         super.onViewCreated(view, savedInstanceState)
         recyclerView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = RecyclerViewAdapter(this.context,
-            IntRange(0, UnoCards.deckPlayer.size-1).toList(), playedCards) //hier wird die karte in der mitte gesetzt
-        endTurnButton.setOnClickListener {
-            playedCards.enemyPlay()
-        }
-        /*chooseColorRadioButtonGroup.setOnCheckedChangeListener { group, checkedRadioButtonId ->
-            val radioButton = group.findViewById<RadioButton>(checkedRadioButtonId)
-            var cardColor : CardColor = CardColor.RED
-            when(radioButton.text.toString()) {
-                R.string.redCheckBox.toString() -> cardColor = CardColor.RED
-                R.string.yellowCheckBox.toString() -> cardColor = CardColor.YELLOW
-                R.string.greenCheckBox.toString() -> cardColor = CardColor.GREEN
-                R.string.blueCheckBox.toString() -> cardColor = CardColor.BLUE
-            }
-            playedCards.setCardColor(cardColor)
-            changeChooseColorVisibility(false)
-        }*/
+            IntRange(0, UnoCards.deckPlayer.size-1).toList(), playedCards)
+        endTurnButton(playedCards)
         setDrawCardButtonListener(playedCards)
         setUnoButtonListener(playedCards)
     }
@@ -107,6 +78,7 @@ class GameFragment : Fragment(), ChooseColorDialogFragment.OnOptionSelectedListe
         childFragmentManager.executePendingTransactions()
     }
     fun changeEndTurnButtonVisibility(setParameter: Boolean){
+
         if (setParameter) {
             endTurnButton.visibility = View.VISIBLE
             drawButton.visibility = View.INVISIBLE
@@ -115,24 +87,49 @@ class GameFragment : Fragment(), ChooseColorDialogFragment.OnOptionSelectedListe
             drawButton.visibility = View.VISIBLE
         }
     }
-    fun changeChooseColorVisibility(setParameter: Boolean){
-        if (setParameter) {
-            chooseColorTextView.visibility = View.VISIBLE
-            chooseColorRadioButtonGroup.visibility = View.VISIBLE
-        } else {
-            chooseColorTextView.visibility = View.INVISIBLE
-            chooseColorRadioButtonGroup.visibility = View.INVISIBLE
-        }
-    }
 
     fun updateImage(imageResId: Int) {
         imageView.setImageResource(imageResId)
+    }
+
+    private fun endTurnButton(playedCards: PlayedCards) {
+        endTurnButton.setOnClickListener {
+            val coroutineScope = CoroutineScope(Dispatchers.Main)
+        playedCards.skipTurns = 0
+        playedCards.enemyPlay()
+        coroutineScope.launch {
+            delay(1000)
+            playedCards.updateImage(playedCards.playedCards.last().imageResId)
+            if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
+                delay(2000)
+                it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) //  player hits endturn button and enemy wins in his turn --> kein craash
+            }
+        }
+            coroutineScope.launch {
+                delay(1000)
+                while(playedCards.playedSkipReverse == true)
+                {
+
+                    playedCards.enemyPlay()
+                    delay(1000)
+                    playedCards.updateImage(playedCards.playedCards.last().imageResId)
+                    if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
+                        delay(2000)
+                        it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player hits endturn utton and enemy wins after a skip card
+                    }
+                }
+            }
+            recyclerView.adapter = RecyclerViewAdapter(this.context,
+                IntRange(0, UnoCards.deckPlayer.size - 1).toList(), playedCards
+            )
+        }
     }
     private fun setDrawCardButtonListener(playedCards: PlayedCards) {
         drawButton.setOnClickListener {
             if (UnoCards.playDeck.isEmpty()) {
                 val message = "No more Cards, Game Over!" // make string later for different languages
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player draws all cards and game ends itself
             } else if (playedCards.cardDrawn == false) {
                 val tempCard = getRandomCard(UnoCards.playDeck)
                 UnoCards.deckPlayer.add(tempCard)
@@ -151,6 +148,7 @@ class GameFragment : Fragment(), ChooseColorDialogFragment.OnOptionSelectedListe
         unoButton.setOnClickListener {
             val message = "UNO!"
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+            playedCards.saidUno = true
         }
     }
 
