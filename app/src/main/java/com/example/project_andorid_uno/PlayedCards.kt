@@ -147,12 +147,21 @@ class PlayedCards(val startCard:PlayingCard,
         lateinit var selectedColor: CardColor
         val scope = CoroutineScope(Dispatchers.Main)
         val pendingResult = scope.async {
+            /* Hier den Dialog aufrufen und auf das Ergebnis warten.
+             * Der Dialog wird in gameFragment.launchChooseColorDialogFragment() aufgerufen
+             * der return Wert ist der ausgewählte Wert
+             */
             //selectedColor = gameFragment.launchChooseColorDialogFragment()
+
+            /*
+             * Zum Testen wird der Wert direkt gesetzt
+             */
             CardColor.RED
         }
         scope.launch {
             selectedColor = pendingResult.await()
         }
+        //Hier ist selectedColor immernoch null
 
 
         lateinit var tempCard: FunctionCard
