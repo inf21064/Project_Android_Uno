@@ -30,14 +30,13 @@ class RecyclerViewAdapter (val context: Context?,
                 playedCards.playerPlay(data)
                 playedCards.updateImage(playedCards.playedCards.last().imageResId)
                 if(UnoCards.deckPlayer.isEmpty() || UnoCards.playDeck.isEmpty()){
-                    it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+                    it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player wins with last card
                 }else if(playedCards.whoHasTurn == "Enemy"){
                     playedCards.enemyPlay()
                     if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
                         coroutineScope.launch {
                             delay(2000)
-                            it.findNavController()
-                                .navigate(R.id.action_gameFragment_to_resultFragment)
+                            it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player plays and enemy wins in his following turn
                         }
                     }
                     coroutineScope.launch {
@@ -54,7 +53,7 @@ class RecyclerViewAdapter (val context: Context?,
                             playedCards.updateImage(playedCards.playedCards.last().imageResId)
                             if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
                                 delay(2000)
-                                it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+                                it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // enemy played skip turn card and then wins
                             }
                         }
                     }

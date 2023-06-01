@@ -43,7 +43,7 @@ class GameFragment : Fragment() {
         recyclerView = binding.rv
 
         binding.stopGameButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+            it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)  // player ends game with reset button
         }
 
         return binding.root
@@ -86,7 +86,7 @@ class GameFragment : Fragment() {
             playedCards.updateImage(playedCards.playedCards.last().imageResId)
             if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
                 delay(2000)
-                it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+                it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) //  player hits endturn button and enemy wins in his turn --> kein craash
             }
         }
             coroutineScope.launch {
@@ -99,7 +99,7 @@ class GameFragment : Fragment() {
                     playedCards.updateImage(playedCards.playedCards.last().imageResId)
                     if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
                         delay(2000)
-                        it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+                        it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player hits endturn utton and enemy wins after a skip card
                     }
                 }
             }
@@ -113,7 +113,7 @@ class GameFragment : Fragment() {
             if (UnoCards.playDeck.isEmpty()) {
                 val message = "No more Cards, Game Over!" // make string later for different languages
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+                it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player draws all cards and game ends itself
             } else if (playedCards.cardDrawn == false) {
                 val tempCard = getRandomCard(UnoCards.playDeck)
                 UnoCards.deckPlayer.add(tempCard)
