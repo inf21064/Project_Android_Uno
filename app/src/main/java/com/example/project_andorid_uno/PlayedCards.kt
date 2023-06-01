@@ -3,6 +3,8 @@ package com.example.project_andorid_uno
 import android.content.Context
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.*
 import kotlin.random.Random
 import kotlin.system.exitProcess
 
@@ -29,11 +31,6 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
             skipTurns++
         }
     }
-    fun setCardColor(cardColor: CardColor){
-        playedCards.last().color = cardColor
-    }
-
-
 
     fun checkForUno() {
         if (UnoCards.deckPlayer.size == 1 && !saidUno) {
@@ -140,12 +137,13 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
         }
 
     private fun checkForAny(nextCard: FunctionCard) {
+
+        gameFragment.launchChooseColorDialogFragment()
+
         if (nextCard.getFunctionText == "Choose Color") {
-            gameFragment.changeChooseColorVisibility(true)
-            ///////////////////////////////////////////////////////////////
             val tempCard = FunctionCard(
                 playerChoosesColor,
-                "Choose Color",
+                "@choose Color",
                 R.drawable.wild_card_clipart_md
             )
             UnoCards.deckPlayer.remove(nextCard)
@@ -153,10 +151,9 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
             playedCards.add(tempCard)
             whoHasTurn = "Enemy"
         } else {
-            gameFragment.changeChooseColorVisibility(true)
             val tempCard = FunctionCard(
                 playerChoosesColor,
-                "Choose Color Draw Four",
+                "@Choose Color Draw Four",
                 R.drawable.wild_draw_four_card_clipart_md
             )
             for (i in 1..4) {
@@ -335,6 +332,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
             if (UnoCards.deckEnemy.isEmpty()) {
                 val message = "You lose!" // make string later for different languages
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                gameFragment.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
             }
             if (UnoCards.deckEnemy.size == 1) {
                 sayUno()

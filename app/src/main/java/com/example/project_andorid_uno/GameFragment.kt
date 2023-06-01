@@ -24,7 +24,7 @@ import com.example.project_andorid_uno.databinding.FragmentGameBinding
 import kotlin.random.Random
 import kotlin.system.exitProcess
 
-class GameFragment : Fragment() {
+class GameFragment : Fragment(), ChooseColorDialogFragment.OnOptionSelectedListener {
     private lateinit var imageView: ImageView
     private lateinit var recyclerView: RecyclerView
     private lateinit var drawButton: Button
@@ -84,7 +84,7 @@ class GameFragment : Fragment() {
         endTurnButton.setOnClickListener {
             playedCards.enemyPlay()
         }
-        chooseColorRadioButtonGroup.setOnCheckedChangeListener { group, checkedRadioButtonId ->
+        /*chooseColorRadioButtonGroup.setOnCheckedChangeListener { group, checkedRadioButtonId ->
             val radioButton = group.findViewById<RadioButton>(checkedRadioButtonId)
             var cardColor : CardColor = CardColor.RED
             when(radioButton.text.toString()) {
@@ -95,9 +95,16 @@ class GameFragment : Fragment() {
             }
             playedCards.setCardColor(cardColor)
             changeChooseColorVisibility(false)
-        }
+        }*/
         setDrawCardButtonListener(playedCards)
         setUnoButtonListener(playedCards)
+    }
+    fun launchChooseColorDialogFragment() {
+        //why does it do the following code async?
+        val chooseColorDialogFragment = ChooseColorDialogFragment()
+        chooseColorDialogFragment.setOnOptionSelectedListener(this)
+        chooseColorDialogFragment.show(childFragmentManager, "ChooseColorDialogFragment")
+        childFragmentManager.executePendingTransactions()
     }
     fun changeEndTurnButtonVisibility(setParameter: Boolean){
         if (setParameter) {
@@ -145,6 +152,11 @@ class GameFragment : Fragment() {
             val message = "UNO!"
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onOptionSelected(color: CardColor) {
+        //Handle the selected option
+        Toast.makeText(context, color.toString(), Toast.LENGTH_LONG)
     }
 
 }
