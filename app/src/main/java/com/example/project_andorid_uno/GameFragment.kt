@@ -111,7 +111,7 @@ class GameFragment : Fragment() {
     private fun setDrawCardButtonListener(playedCards: PlayedCards) {
         drawButton.setOnClickListener {
             if (UnoCards.playDeck.isEmpty()) {
-                val message = "No more Cards, Game Over!" // make string later for different languages
+                val message = getString(R.string.noCardsGameOver) // make string later for different languages
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                 it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player draws all cards and game ends itself
             } else if (playedCards.cardDrawn == false) {
@@ -122,14 +122,14 @@ class GameFragment : Fragment() {
                 recyclerView.smoothScrollToPosition(UnoCards.deckPlayer.size - 1)
                 playedCards.cardDrawn = true
             }else{
-                val message = "You already drew a card!" // make string later for different languages
+                val message = getString(R.string.alreadyDrewCard) // make string later for different languages
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             }
         }
     }
     private fun setUnoButtonListener(playedCards: PlayedCards) {
         unoButton.setOnClickListener {
-            val message = "UNO!"
+            val message = getString(R.string.sayUnoButton)
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             playedCards.saidUno = true
         }

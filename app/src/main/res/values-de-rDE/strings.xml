@@ -24,4 +24,18 @@
     <string name="botImageViewIconContentDescription">Roboter-Symbol</string>
     <string name="pointsTextView">Punkte:</string>
     <string name="endTurnButton">Zug beenden</string>
+    <string name="settingsError">Bitte gib eine Zahl zwischen 1 und 15 an</string>
+    <string name="intentEmail">UNO Ergebnis</string>
+    <string name="intentPlayerPoints">"Spieler Punkte: "</string>
+    <string name="intentBotPoints">Computer Punkte:</string>
+    <string name="intentSendEmail">Versende Email...</string>
+    <string name="noCardsGameOver">Keine weiteren Karten, Spiel vorbei</string>
+    <string name="alreadyDrewCard">Du hast bereits eine Karte gezogen!</string>
+    <string name="noImageError">Bild konnte nicht geladen werden.</string>
+    <string name="checkForUno">Vergessen Uno zu sagen. 2 Strafkarten!</string>
+    <string name="winnerWinnerChickenDinner">Du hast gewonnen!</string>
+    <string name="noFit">"Die Karten passen nicht zueinander: "</string>
+    <string name="enemyWish">"Computer: Ich wünsche mir "</string>
+    <string name="enemyDrewCard">Computer: Ich musste eine Karte ziehen</string>
+    <string name="youAreALoser">Computer: Du hast verloren!</string>
 </resources>

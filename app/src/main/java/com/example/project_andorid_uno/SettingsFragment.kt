@@ -23,7 +23,7 @@ class settingsFragment : Fragment() {
         binding.applySettingsBtn.setOnClickListener {
             numOfCards = binding.numOfCardsTxtInput.text.toString().toInt()
             if (numOfCards < 1 || numOfCards >  15) {
-                binding.numOfCardsTxtInput.error = "Please enter a number between 1 and 15"
+                binding.numOfCardsTxtInput.error = getString(R.string.settingsError)
                 return@setOnClickListener
             } else {
                 it.findNavController().navigate(R.id.action_settingsFragment_to_homeFragment)

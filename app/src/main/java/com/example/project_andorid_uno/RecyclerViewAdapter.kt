@@ -28,6 +28,9 @@ class RecyclerViewAdapter (val context: Context?,
         fun bind(data: PlayingCard) {
             row.setOnClickListener{
                 playedCards.playerPlay(data)
+                if(playedCards.playedCards.last().getCardColor == CardColor.ANY){
+
+                }
                 playedCards.updateImage(playedCards.playedCards.last().imageResId)
                 if(UnoCards.deckPlayer.isEmpty() || UnoCards.playDeck.isEmpty()){
                     it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player wins with last card
@@ -36,6 +39,7 @@ class RecyclerViewAdapter (val context: Context?,
                     if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
                         coroutineScope.launch {
                             delay(2000)
+                            playedCards.playedSkipReverse = false
                             it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player plays and enemy wins in his following turn
                         }
                     }
@@ -53,6 +57,7 @@ class RecyclerViewAdapter (val context: Context?,
                             playedCards.updateImage(playedCards.playedCards.last().imageResId)
                             if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
                                 delay(2000)
+                                playedCards.playedSkipReverse = false
                                 it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // enemy played skip turn card and then wins
                             }
                         }

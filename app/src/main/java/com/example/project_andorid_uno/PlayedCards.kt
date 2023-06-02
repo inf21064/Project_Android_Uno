@@ -39,14 +39,12 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
 
     fun checkForUno() {
         if (UnoCards.deckPlayer.size == 1 && !saidUno) {
-            val message =
-                "You forgot to say Uno. Draw 2 Cards!" // make string later for different languages
+            val message = R.string.checkForUno
             Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             for (i in 1..2) {
 
                 if (UnoCards.playDeck.isEmpty()) {
-                    val message =
-                        "No more Cards, Game Over!" // make string later for different languages
+                    val message = R.string.noCardsGameOver
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     break
                 } else {
@@ -129,7 +127,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                 }
             }
             if (UnoCards.deckPlayer.isEmpty()) {
-                val message = "You win!" // make string later for different languages
+                val message = R.string.winnerWinnerChickenDinner
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             }
     }
@@ -153,8 +151,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
             )
             for (i in 1..4) {
                 if (UnoCards.playDeck.isEmpty()) {
-                    val message =
-                        "No more Cards, Game Over!" // make string later for different languages
+                    val message = R.string.noCardsGameOver
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     break
                 }else{
@@ -171,12 +168,12 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
     }
 
     private fun <T: PlayingCard>notAllowed(lastCard: T,nextCard: T) : Unit {
-        val message = "On ${lastCard.toString()} does not fit a ${nextCard.toString()}"
+        val message = "" + R.string.noFit + lastCard.toString() + " | " +  nextCard.toString()
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun sayUno() : Unit {
-        val message = "UNO!"
+        val message = R.string.sayUnoButton
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
     private fun getRandomCard(list: MutableList<PlayingCard>) : PlayingCard {
@@ -191,7 +188,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
             for (i in 1..2) {
 
                 if(UnoCards.playDeck.isEmpty()){
-                    val message = "No more Cards, Game Over!" // make string later for different languages
+                    val message = R.string.noCardsGameOver // make string later for different languages
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     break
                 } else {
@@ -207,7 +204,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
         {
             for (i in 1..2) {
                 if(UnoCards.playDeck.isEmpty()){
-                    val message = "No more Cards, Game Over!" // make string later for different languages
+                    val message = R.string.noCardsGameOver // make string later for different languages
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     break
                 }else{
@@ -228,7 +225,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
             2 -> color=CardColor.GREEN
             3 -> color=CardColor.BLUE
         }
-        val message = "I wish: ${color}"
+        val message = "" + R.string.enemyWish + color +"!"
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         return color
     }
@@ -263,7 +260,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                             )
                             for (i in 1..4) {
                                 if(UnoCards.playDeck.isEmpty()){
-                                    val message = "No more cards.Game Over!"
+                                    val message = R.string.noCardsGameOver
                                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                                     break
                                 }else{
@@ -338,19 +335,19 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
 
             if (!wasCardPlayed) {
                 if(UnoCards.playDeck.isEmpty()){
-                    val message = "No more cards.Game Over!"
+                    val message = R.string.noCardsGameOver
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                 }else{
                     val tempCard = getRandomCard(UnoCards.playDeck)
                     UnoCards.deckEnemy.add(tempCard)
-                    val message = "I had to draw a card!" // make string later for different languages
+                    val message = R.string.enemyDrewCard // make string later for different languages
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                 }
 
             }
             wasCardPlayed = false
             if (UnoCards.deckEnemy.isEmpty()) {
-                val message = "You lose!" // make string later for different languages
+                val message = R.string.youAreALoser // make string later for different languages
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             }
             if (UnoCards.deckEnemy.size == 1) {
