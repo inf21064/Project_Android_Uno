@@ -168,7 +168,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
     }
 
     private fun <T: PlayingCard>notAllowed(lastCard: T,nextCard: T) : Unit {
-        val message = "" + R.string.noFit + lastCard.toString() + " | " +  nextCard.toString()
+        val message = R.string.noFit
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
@@ -225,7 +225,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
             2 -> color=CardColor.GREEN
             3 -> color=CardColor.BLUE
         }
-        val message = "" + R.string.enemyWish + color +"!"
+        val message = "." + R.string.enemyWish + color +"!"
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         return color
     }

@@ -85,6 +85,7 @@ class GameFragment : Fragment() {
             delay(1000)
             playedCards.updateImage(playedCards.playedCards.last().imageResId)
             if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
+                playedCards.playedSkipReverse = false
                 delay(2000)
                 it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) //  player hits endturn button and enemy wins in his turn --> kein craash
             }
