@@ -38,4 +38,9 @@
     <string name="enemyWish">Enemy: I wish </string>
     <string name="enemyDrewCard">Enemy: I had to drew a card</string>
     <string name="youAreALoser">Enemy: You lose!</string>
+    <string name="chooseColorTextView">Choose a color:</string>
+    <string name="redCheckBox">red</string>
+    <string name="greenCheckBox">green</string>
+    <string name="yellowCheckBox">yellow</string>
+    <string name="blueCheckBox">blue</string>
 </resources>

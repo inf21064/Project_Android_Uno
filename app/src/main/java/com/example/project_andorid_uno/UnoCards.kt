@@ -296,7 +296,7 @@ object UnoCards {
     fun getPlayerDeck(numberOfCardsToDraw: Int){
         for(i in 1..numberOfCardsToDraw){
             val tempCard = getRandomCard(playDeck)
-            deckPlayer.add(tempCard)
+            deckPlayer.add(chooseColor)
         }
     }
 

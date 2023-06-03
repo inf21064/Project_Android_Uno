@@ -38,4 +38,9 @@
     <string name="enemyWish">"Computer: Ich wünsche mir "</string>
     <string name="enemyDrewCard">Computer: Ich musste eine Karte ziehen</string>
     <string name="youAreALoser">Computer: Du hast verloren!</string>
+    <string name="chooseColorTextView">Wähle eine Farbe:</string>
+    <string name="redCheckBox">rot</string>
+    <string name="greenCheckBox">grün</string>
+    <string name="yellowCheckBox">gelb</string>
+    <string name="blueCheckBox">blau</string>
 </resources>

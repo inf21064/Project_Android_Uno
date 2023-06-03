@@ -3,13 +3,15 @@ package com.example.project_andorid_uno
 import android.content.Context
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.*
 import kotlin.random.Random
 import kotlin.system.exitProcess
 
 class PlayedCards(val startCard:PlayingCard, val context: Context?, private val playedCardImageView: ImageView, private val gameFragment: GameFragment) {
 
     var playedSkipReverse = false
-    val playedCards: MutableList<PlayingCard> = mutableListOf(startCard)
+    var playedCards: MutableList<PlayingCard> = mutableListOf(startCard)
     var whoHasTurn = "Player"
     private var _cardDrawn = false
     var saidUno = false
@@ -75,6 +77,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                     is FunctionCard -> {
                         if (nextCard.getCardColor.toString() == "Any") {
                             checkForAny(nextCard)
+                            whoHasTurn = "Enemy"
                         } else if (lastCard is FunctionCard) {
                             if (lastCard.getCardColor == nextCard.getCardColor || lastCard.getFunctionText.equals(
                                     nextCard.getFunctionText
@@ -113,6 +116,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                         lastCard as ValueCard
                         if (nextCard.getCardColor.toString() == "Any") {
                             checkForAny(nextCard)
+                            whoHasTurn = "Enemy"
                         } else if (lastCard.getCardColor == nextCard.getCardColor) {
                             checkForDrawTwoPlayer(nextCard)
                             checkForSkipOrReverse(nextCard)
@@ -133,19 +137,16 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
     }
 
     private fun checkForAny(nextCard: FunctionCard) {
+        lateinit var tempCard: FunctionCard
         if (nextCard.getFunctionText == "Choose Color") {
-            val tempCard = FunctionCard(
-                CardColor.RED/*whatever the player chooses*/,
+            tempCard = FunctionCard(
+                CardColor.ANY,
                 "Choose Color",
                 R.drawable.wild_card_clipart_md
             )
-            UnoCards.deckPlayer.remove(nextCard)
-            checkForUno()
-            playedCards.add(tempCard)
-            whoHasTurn = "Enemy"
         } else {
-            val tempCard = FunctionCard(
-                CardColor.RED/*whatever the player chooses*/,
+            tempCard = FunctionCard(
+                CardColor.ANY,
                 "Choose Color Draw Four",
                 R.drawable.wild_draw_four_card_clipart_md
             )
@@ -154,17 +155,18 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
                     val message = R.string.noCardsGameOver
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     break
-                }else{
+                } else {
                     val tempCard2 = getRandomCard(UnoCards.playDeck)
                     UnoCards.deckEnemy.add(tempCard2)
                 }
 
             }
-            UnoCards.deckPlayer.remove(nextCard)
-            checkForUno()
-            playedCards.add(tempCard)
-            whoHasTurn = "Enemy"
+
         }
+        UnoCards.deckPlayer.remove(nextCard)
+        checkForUno()
+        playedCards.add(tempCard)
+        whoHasTurn = "Enemy"
     }
 
     private fun <T: PlayingCard>notAllowed(lastCard: T,nextCard: T) : Unit {
@@ -225,7 +227,7 @@ class PlayedCards(val startCard:PlayingCard, val context: Context?, private val 
             2 -> color=CardColor.GREEN
             3 -> color=CardColor.BLUE
         }
-        val message = "." + R.string.enemyWish + color +"!"
+        val message = "" + R.string.enemyWish + color.toString() +"!"
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         return color
     }

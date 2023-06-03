@@ -1,6 +1,5 @@
 package com.example.project_andorid_uno
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,15 +10,11 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.project_andorid_uno.databinding.FragmentGameBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlin.random.Random
-import kotlin.system.exitProcess
+import kotlinx.coroutines.*
 
 class GameFragment : Fragment() {
     lateinit var imageView: ImageView
@@ -38,6 +33,7 @@ class GameFragment : Fragment() {
             R.layout.fragment_game,container,false)
         drawButton = binding.drawCardButton
         endTurnButton = binding.endTurnButton
+        endTurnButton.visibility = View.INVISIBLE
         unoButton = binding.sayUnoButton
         imageView = binding.playedUnoCardView
         recyclerView = binding.rv
@@ -56,8 +52,26 @@ class GameFragment : Fragment() {
         val playedCards = PlayedCards(startingCard, context, imageView, this)
         super.onViewCreated(view, savedInstanceState)
         recyclerView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = RecyclerViewAdapter(this.context,
+        var adapter = RecyclerViewAdapter(this.context,
             IntRange(0, UnoCards.deckPlayer.size-1).toList(), playedCards)
+        recyclerView.adapter = adapter
+
+        val navBackStackEntry = findNavController().getBackStackEntry(R.id.gameFragment)
+        val handle = navBackStackEntry.savedStateHandle
+        handle.getLiveData<Bundle>("returnArgumentsBundle").observe(viewLifecycleOwner) { bundle ->
+            val cardColor = bundle?.get("chosenColor") as CardColor?
+            val tempList = bundle?.get("playedCards") as MutableList<PlayingCard>?
+            if (tempList != null) {
+                playedCards.playedCards = tempList
+                updateImage(playedCards.playedCards.last().imageResId)
+            }
+            if (cardColor != null) {
+                playedCards.playedCards.last().color = cardColor
+                Toast.makeText(context, "Color chosen: $cardColor", Toast.LENGTH_SHORT).show()
+                playedCards.whoHasTurn = "Enemy"
+                adapter.checkAndPlayEnemy()
+            }
+        }
         endTurnButton(playedCards)
         setDrawCardButtonListener(playedCards)
         setUnoButtonListener(playedCards)
