@@ -66,6 +66,7 @@ class GameFragment : Fragment() {
             }
             if (cardColor != null) {
                 playedCards.playedCards.last().color = cardColor
+                val message = "test"
                 Toast.makeText(context, "Color chosen: $cardColor", Toast.LENGTH_SHORT).show()
                 playedCards.whoHasTurn = "Enemy"
                 adapter.checkAndPlayEnemy()
@@ -100,6 +101,7 @@ class GameFragment : Fragment() {
             delay(1000)
             playedCards.updateImage(playedCards.playedCards.last().imageResId)
             if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
+                playedCards.playedSkipReverse = false
                 delay(2000)
                 it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) //  player hits endturn button and enemy wins in his turn --> kein craash
             }
@@ -113,6 +115,7 @@ class GameFragment : Fragment() {
                     delay(1000)
                     playedCards.updateImage(playedCards.playedCards.last().imageResId)
                     if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
+                        playedCards.playedSkipReverse = false
                         delay(2000)
                         it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player hits endturn utton and enemy wins after a skip card
                     }
@@ -126,7 +129,7 @@ class GameFragment : Fragment() {
     private fun setDrawCardButtonListener(playedCards: PlayedCards) {
         drawButton.setOnClickListener {
             if (UnoCards.playDeck.isEmpty()) {
-                val message = "No more Cards, Game Over!" // make string later for different languages
+                val message = R.string.noCardsGameOver // make string later for different languages
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                 it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player draws all cards and game ends itself
             } else if (playedCards.cardDrawn == false) {
@@ -137,7 +140,7 @@ class GameFragment : Fragment() {
                 recyclerView.smoothScrollToPosition(UnoCards.deckPlayer.size - 1)
                 playedCards.cardDrawn = true
             }else{
-                val message = "You already drew a card!" // make string later for different languages
+                val message = R.string.alreadyDrewCard // make string later for different languages
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             }
         }
@@ -145,7 +148,7 @@ class GameFragment : Fragment() {
 
     private fun setUnoButtonListener(playedCards: PlayedCards) {
         unoButton.setOnClickListener {
-            val message = "UNO!"
+            val message = R.string.sayUnoButton
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             playedCards.saidUno = true
         }

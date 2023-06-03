@@ -267,7 +267,7 @@ class PlayedCards(val startCard:PlayingCard,
                             )
                             for (i in 1..4) {
                                 if(UnoCards.playDeck.isEmpty()){
-                                    val message = "No more cards.Game Over!"
+                                    val message = R.string.
                                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                                     break
                                 }else{
