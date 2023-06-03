@@ -24,4 +24,9 @@
     <string name="botImageViewIconContentDescription">Roboter-Symbol</string>
     <string name="pointsTextView">Punkte:</string>
     <string name="endTurnButton">Zug beenden</string>
+    <string name="chooseColorTextView">Wähle eine Farbe:</string>
+    <string name="redCheckBox">rot</string>
+    <string name="greenCheckBox">grün</string>
+    <string name="yellowCheckBox">gelb</string>
+    <string name="blueCheckBox">blau</string>
 </resources>

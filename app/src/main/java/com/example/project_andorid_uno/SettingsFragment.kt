@@ -22,7 +22,7 @@ class settingsFragment : Fragment() {
 
         binding.applySettingsBtn.setOnClickListener {
             numOfCards = binding.numOfCardsTxtInput.text.toString().toInt()
-            if (numOfCards < 1 || numOfCards > 15) {
+            if (numOfCards < 1 || numOfCards >  15) {
                 binding.numOfCardsTxtInput.error = "Please enter a number between 1 and 15"
                 return@setOnClickListener
             } else {

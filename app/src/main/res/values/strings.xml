@@ -24,4 +24,9 @@
     <string name="botImageViewIconContentDescription">Bot Icon</string>
     <string name="pointsTextView">Points:</string>
     <string name="endTurnButton">end Turn</string>
+    <string name="chooseColorTextView">Choose a color:</string>
+    <string name="redCheckBox">red</string>
+    <string name="greenCheckBox">green</string>
+    <string name="yellowCheckBox">yellow</string>
+    <string name="blueCheckBox">blue</string>
 </resources>

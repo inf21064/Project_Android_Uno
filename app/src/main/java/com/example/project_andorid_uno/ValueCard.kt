@@ -7,6 +7,10 @@ class ValueCard(color: CardColor, private val value: Int, imageResId: Int) : Pla
         return imageResId
     }
 
+    override fun copy(): ValueCard {
+        return ValueCard(color, value, imageResId)
+    }
+
     override fun toString(): String {
         return "${super.toString()}: $value"
     }
