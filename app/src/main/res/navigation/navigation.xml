@@ -21,6 +21,13 @@
         <action
             android:id="@+id/action_gameFragment_to_resultFragment"
             app:destination="@id/resultFragment" />
+        <action
+            android:id="@+id/action_gameFragment_to_chooseColorFragment"
+            app:destination="@id/test" >
+            <argument
+                android:name="playedCards"
+                app:argType="java.util.ArrayList"/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
@@ -42,5 +49,21 @@
         <action
             android:id="@+id/action_settingsFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/test"
+        android:name="com.example.project_andorid_uno.ChooseColorFragment"
+        android:label="fragment_test"
+        tools:layout="@layout/fragment_choosecolor" >
+        <action
+            android:id="@+id/action_chooseColorFragment_to_gameFragment"
+            app:destination="@id/gameFragment" >
+            <argument
+                android:name="chosenColor"
+                app:argType="com.example.project_andorid_uno.CardColor" />
+            <argument
+                android:name="playedCards"
+                app:argType="java.util.ArrayList"/>
+        </action>
     </fragment>
 </navigation>

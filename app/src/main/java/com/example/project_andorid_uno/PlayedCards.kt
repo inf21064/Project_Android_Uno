@@ -14,7 +14,7 @@ class PlayedCards(val startCard:PlayingCard,
                   private val gameFragment: GameFragment) {
 
     var playedSkipReverse = false
-    val playedCards: MutableList<PlayingCard> = mutableListOf(startCard)
+    var playedCards: MutableList<PlayingCard> = mutableListOf(startCard)
     var whoHasTurn = "Player"
     private var _cardDrawn = false
     var saidUno = false
@@ -82,6 +82,7 @@ class PlayedCards(val startCard:PlayingCard,
                     is FunctionCard -> {
                         if (nextCard.color.toString() == "Any") {
                             checkForAny(nextCard)
+                            whoHasTurn = "Enemy"
                         } else if (lastCard is FunctionCard) {
                             if (lastCard.color == nextCard.color || lastCard.getFunctionText.equals(
                                     nextCard.getFunctionText
@@ -120,6 +121,7 @@ class PlayedCards(val startCard:PlayingCard,
                         lastCard as ValueCard
                         if (nextCard.color.toString() == "Any") {
                             checkForAny(nextCard)
+                            whoHasTurn = "Enemy"
                         } else if (lastCard.color == nextCard.color) {
                             checkForDrawTwoPlayer(nextCard)
                             checkForSkipOrReverse(nextCard)
@@ -138,44 +140,18 @@ class PlayedCards(val startCard:PlayingCard,
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             }
     }
-    /*var playerChoosesColor : CardColor
-        get() = CardColor.RED
-        set(value) {
-            playedCards.last().color = value
-        }*/
     private fun checkForAny(nextCard: FunctionCard) {
-        lateinit var selectedColor: CardColor
-        val scope = CoroutineScope(Dispatchers.Main)
-        val pendingResult = scope.async {
-            /* Hier den Dialog aufrufen und auf das Ergebnis warten.
-             * Der Dialog wird in gameFragment.launchChooseColorDialogFragment() aufgerufen
-             * der return Wert ist der ausgewählte Wert
-             */
-            //selectedColor = gameFragment.launchChooseColorDialogFragment()
-
-            /*
-             * Zum Testen wird der Wert direkt gesetzt
-             */
-            CardColor.RED
-        }
-        scope.launch {
-            selectedColor = pendingResult.await()
-        }
-        //Hier ist selectedColor immernoch null
-
-
         lateinit var tempCard: FunctionCard
-
         if (nextCard.getFunctionText == "Choose Color") {
             tempCard = FunctionCard(
-                selectedColor,
-                "@choose Color",
+                CardColor.ANY,
+                "Choose Color",
                 R.drawable.wild_card_clipart_md
             )
         } else {
             tempCard = FunctionCard(
-                selectedColor,
-                "@Choose Color Draw Four",
+                CardColor.ANY,
+                "Choose Color Draw Four",
                 R.drawable.wild_draw_four_card_clipart_md
             )
             for (i in 1..4) {

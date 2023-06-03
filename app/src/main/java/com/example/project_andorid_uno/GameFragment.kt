@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.project_andorid_uno.databinding.FragmentGameBinding
@@ -23,8 +24,6 @@ class GameFragment : Fragment() {
     private lateinit var drawButton: Button
     private lateinit var unoButton: Button
     private lateinit var endTurnButton: Button
-    private lateinit var chooseColorTextView: TextView
-    private lateinit var chooseColorRadioButtonGroup: RadioGroup
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +39,7 @@ class GameFragment : Fragment() {
         recyclerView = binding.rv
 
         binding.stopGameButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)  // player ends game with reset button
+            it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
         }
 
         return binding.root
@@ -53,25 +52,31 @@ class GameFragment : Fragment() {
         val playedCards = PlayedCards(startingCard, context, imageView, this)
         super.onViewCreated(view, savedInstanceState)
         recyclerView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = RecyclerViewAdapter(this.context,
+        var adapter = RecyclerViewAdapter(this.context,
             IntRange(0, UnoCards.deckPlayer.size-1).toList(), playedCards)
+        recyclerView.adapter = adapter
+        val navBackStackEntry = findNavController().getBackStackEntry(R.id.gameFragment)
+        val handle = navBackStackEntry.savedStateHandle
+        handle.getLiveData<Bundle>("returnArgumentsBundle").observe(viewLifecycleOwner) { bundle ->
+            val cardColor = bundle?.get("chosenColor") as CardColor?
+            val tempList = bundle?.get("playedCards") as MutableList<PlayingCard>?
+            if (tempList != null) {
+                playedCards.playedCards = tempList
+                updateImage(playedCards.playedCards.last().imageResId)
+            }
+            if (cardColor != null) {
+                playedCards.playedCards.last().color = cardColor
+                Toast.makeText(context, "Color chosen: $cardColor", Toast.LENGTH_SHORT).show()
+                playedCards.whoHasTurn = "Enemy"
+                adapter.checkAndPlayEnemy()
+            }
+        }
         endTurnButton(playedCards)
         setDrawCardButtonListener(playedCards)
         setUnoButtonListener(playedCards)
     }
 
-    suspend fun launchChooseColorDialogFragment() : CardColor = withContext(Dispatchers.Main) {
-        val chooseColorDialogFragment = ChooseColorDialogFragment()
-        val pendingColorResult = CompletableDeferred<CardColor>()
-        chooseColorDialogFragment.setDialogCallback(object : ChooseColorDialogFragment.DialogCallback {
-            override fun onColorSelected(color: CardColor) {
-                pendingColorResult.complete(color)
-            }
-        })
-                chooseColorDialogFragment.show(childFragmentManager, "ChooseColorDialogFragment")
 
-            pendingColorResult.await()
-    }
     fun changeEndTurnButtonVisibility(setParameter: Boolean){
         if (setParameter) {
             endTurnButton.visibility = View.VISIBLE
@@ -145,10 +150,5 @@ class GameFragment : Fragment() {
             playedCards.saidUno = true
         }
     }
-
-    /*override fun onOptionSelected(color: CardColor) {
-        //Handle the selected option
-        Toast.makeText(context, color.toString(), Toast.LENGTH_LONG)
-    }*/
 
 }
