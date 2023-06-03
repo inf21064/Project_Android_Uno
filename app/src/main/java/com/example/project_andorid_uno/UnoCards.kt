@@ -64,222 +64,60 @@ object UnoCards {
     // , switch cards, remove cards
 
     fun refreshPlayDeck(){
-        if(!playDeck.contains(yellowZero))
-        {
             playDeck.add(yellowZero)
-        }
-        if(!playDeck.contains(yellowOne))
-        {
             playDeck.add(yellowOne)
-        }
-        if(!playDeck.contains(yellowTwo))
-        {
             playDeck.add(yellowTwo)
-        }
-        if(!playDeck.contains(yellowThree))
-        {
             playDeck.add(yellowThree)
-        }
-        if(!playDeck.contains(yellowFour))
-        {
             playDeck.add(yellowFour)
-        }
-        if(!playDeck.contains(yellowFive))
-        {
             playDeck.add(yellowFive)
-        }
-        if(!playDeck.contains(yellowSix))
-        {
             playDeck.add(yellowSix)
-        }
-        if(!playDeck.contains(yellowSeven))
-        {
             playDeck.add(yellowSeven)
-        }
-        if(!playDeck.contains(yellowEight))
-        {
             playDeck.add(yellowEight)
-        }
-        if(!playDeck.contains(yellowNine))
-        {
             playDeck.add(yellowNine)
-        }
-        if(!playDeck.contains(yellowReverse))
-        {
             playDeck.add(yellowReverse)
-        }
-        if(!playDeck.contains(yellowSkip))
-        {
             playDeck.add(yellowSkip)
-        }
-        if(!playDeck.contains(yellowDrawTwo))
-        {
             playDeck.add(yellowDrawTwo)
-        }
-        if(!playDeck.contains(greenZero))
-        {
             playDeck.add(greenZero)
-        }
-        if(!playDeck.contains(greenOne))
-        {
             playDeck.add(greenOne)
-        }
-        if(!playDeck.contains(greenTwo))
-        {
             playDeck.add(greenTwo)
-        }
-        if(!playDeck.contains(greenThree))
-        {
             playDeck.add(greenThree)
-        }
-        if(!playDeck.contains(greenFour))
-        {
             playDeck.add(greenFour)
-        }
-        if(!playDeck.contains(greenFive))
-        {
             playDeck.add(greenFive)
-        }
-        if(!playDeck.contains(greenSix))
-        {
             playDeck.add(greenSix)
-        }
-        if(!playDeck.contains(greenSeven))
-        {
             playDeck.add(greenSeven)
-        }
-        if(!playDeck.contains(greenEight))
-        {
             playDeck.add(greenEight)
-        }
-        if(!playDeck.contains(greenNine))
-        {
             playDeck.add(greenNine)
-        }
-        if(!playDeck.contains(greenReverse))
-        {
             playDeck.add(greenReverse)
-        }
-        if(!playDeck.contains(greenSkip))
-        {
             playDeck.add(greenSkip)
-        }
-        if(!playDeck.contains(greenDrawTwo))
-        {
             playDeck.add(greenDrawTwo)
-        }
-        if(!playDeck.contains(redZero))
-        {
             playDeck.add(redZero)
-        }
-        if(!playDeck.contains(redOne))
-        {
             playDeck.add(redOne)
-        }
-        if(!playDeck.contains(redTwo))
-        {
             playDeck.add(redTwo)
-        }
-        if(!playDeck.contains(redThree))
-        {
             playDeck.add(redThree)
-        }
-        if(!playDeck.contains(redFour))
-        {
             playDeck.add(redFour)
-        }
-        if(!playDeck.contains(redFive))
-        {
             playDeck.add(redFive)
-        }
-        if(!playDeck.contains(redSix))
-        {
             playDeck.add(redSix)
-        }
-        if(!playDeck.contains(redSeven))
-        {
             playDeck.add(redSeven)
-        }
-        if(!playDeck.contains(redEight))
-        {
             playDeck.add(redEight)
-        }
-        if(!playDeck.contains(redNine))
-        {
             playDeck.add(redNine)
-        }
-        if(!playDeck.contains(redReverse))
-        {
             playDeck.add(redReverse)
-        }
-        if(!playDeck.contains(redSkip))
-        {
             playDeck.add(redSkip)
-        }
-        if(!playDeck.contains(redDrawTwo))
-        {
             playDeck.add(redDrawTwo)
-        }
-        if(!playDeck.contains(blueZero))
-        {
             playDeck.add(blueZero)
-        }
-        if(!playDeck.contains(blueOne))
-        {
             playDeck.add(blueOne)
-        }
-        if(!playDeck.contains(blueTwo))
-        {
             playDeck.add(blueTwo)
-        }
-        if(!playDeck.contains(blueThree))
-        {
             playDeck.add(blueThree)
-        }
-        if(!playDeck.contains(blueFour))
-        {
             playDeck.add(blueFour)
-        }
-        if(!playDeck.contains(blueFive))
-        {
             playDeck.add(blueFive)
-        }
-        if(!playDeck.contains(blueSix))
-        {
             playDeck.add(blueSix)
-        }
-        if(!playDeck.contains(blueSeven))
-        {
             playDeck.add(blueSeven)
-        }
-        if(!playDeck.contains(blueEight))
-        {
             playDeck.add(blueEight)
-        }
-        if(!playDeck.contains(blueNine))
-        {
             playDeck.add(blueNine)
-        }
-        if(!playDeck.contains(blueReverse))
-        {
             playDeck.add(blueReverse)
-        }
-        if(!playDeck.contains(blueSkip))
-        {
             playDeck.add(blueSkip)
-        }
-        if(!playDeck.contains(blueDrawTwo))
-        {
             playDeck.add(blueDrawTwo)
-        }
-        if(!playDeck.contains(chooseColor))
-        {
             playDeck.add(chooseColor)
-        }
-        if(!playDeck.contains(plusFour))
-        {
             playDeck.add(plusFour)
-        }
     }
 
     var playDeck = mutableListOf<PlayingCard>()

@@ -37,6 +37,7 @@ class ResultFragment : Fragment() {
         binding.playAgainButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_resultFragment_to_gameFragment)
             val fragment = settingsFragment()
+            UnoCards.playDeck.clear()
             UnoCards.refreshPlayDeck()
             UnoCards.deckPlayer.clear()
             UnoCards.getPlayerDeck(fragment.getNumOfCards())

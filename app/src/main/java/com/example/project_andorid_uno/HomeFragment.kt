@@ -23,7 +23,7 @@ class HomeFragment : Fragment() {
         binding.playBtn.setOnClickListener { view : View ->
             view.findNavController().navigate(R.id.action_homeFragment_to_gameFragment)
             val fragment = settingsFragment()
-            //UnoCards.playDeck.clear()
+            UnoCards.playDeck.clear()
             UnoCards.refreshPlayDeck()
             UnoCards.deckPlayer.clear()
             UnoCards.getPlayerDeck(fragment.getNumOfCards())
