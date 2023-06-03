@@ -48,6 +48,7 @@ class RecyclerViewAdapter (val context: Context?,
             playedCards.enemyPlay()
             if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
                 coroutineScope.launch {
+                    playedCards.playedSkipReverse = false
                     delay(2000)
                     tempView.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player plays and enemy wins in his following turn
                 }
@@ -64,6 +65,7 @@ class RecyclerViewAdapter (val context: Context?,
                     delay(1000)
                     playedCards.updateImage(playedCards.playedCards.last().imageResId)
                     if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
+                        playedCards.playedSkipReverse = false
                         delay(2000)
                         tempView.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // enemy played skip turn card and then wins
                     }
