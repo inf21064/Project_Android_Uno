@@ -19,6 +19,7 @@ class ResultFragment : Fragment() {
     ): View? {
         val pointsPlayer = calculatePoints(UnoCards.deckEnemy)
         val pointsEnemy = calculatePoints(UnoCards.deckPlayer)
+        result = ResultData("${pointsPlayer}","${pointsEnemy}")
 
         val emailIntent = Intent(Intent.ACTION_SEND)
         emailIntent.type = "text/plain"
