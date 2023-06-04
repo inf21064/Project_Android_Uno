@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.RadioGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
@@ -104,7 +102,7 @@ class GameFragment : Fragment() {
                 playedCards.playedSkipReverse = false
                 delay(2000)
                 //  player hits endturn button and enemy wins in his turn --> kein craash
-                validateNavigationToResultfragment()
+                validateNavigationToResultFragment()
             }
         }
             coroutineScope.launch {
@@ -119,7 +117,7 @@ class GameFragment : Fragment() {
                         playedCards.playedSkipReverse = false
                         delay(2000)
                         // player hits endturnbutton and enemy wins after a skip card
-                        validateNavigationToResultfragment()
+                        validateNavigationToResultFragment()
                     }
                 }
             }
@@ -134,7 +132,7 @@ class GameFragment : Fragment() {
                 val message = R.string.noCardsGameOver
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                 // player draws all cards and game ends itself
-                validateNavigationToResultfragment()
+                validateNavigationToResultFragment()
             } else if (playedCards.cardDrawn == false) {
                 val tempCard = getRandomCard(UnoCards.playDeck)
                 UnoCards.deckPlayer.add(tempCard)
@@ -157,7 +155,7 @@ class GameFragment : Fragment() {
         }
     }
 
-    private fun validateNavigationToResultfragment() {
+    private fun validateNavigationToResultFragment() {
         try {
             endTurnButton.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
         } catch (e: IllegalArgumentException) {

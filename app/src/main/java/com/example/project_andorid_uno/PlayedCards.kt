@@ -4,7 +4,6 @@ import android.content.Context
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import kotlinx.coroutines.*
 import kotlin.random.Random
 import kotlin.system.exitProcess
 

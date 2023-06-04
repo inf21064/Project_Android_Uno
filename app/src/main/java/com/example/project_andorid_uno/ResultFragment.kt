@@ -1,7 +1,6 @@
 package com.example.project_andorid_uno
 
 import android.content.Intent
-import android.icu.number.IntegerWidth
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,14 +11,13 @@ import androidx.navigation.findNavController
 import com.example.project_andorid_uno.databinding.FragmentResultBinding
 
 class ResultFragment : Fragment() {
-    lateinit var result: ResultData
+    private lateinit var result: ResultData
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val pointsPlayer = calculatePoints(UnoCards.deckPlayer)
         val pointsEnemy = calculatePoints(UnoCards.deckEnemy)
-        val stringResult = ResultData("${pointsPlayer}","${pointsEnemy}")
 
         val emailIntent = Intent(Intent.ACTION_SEND)
         emailIntent.type = "text/plain"
