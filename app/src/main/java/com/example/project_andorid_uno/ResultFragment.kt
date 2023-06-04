@@ -17,22 +17,26 @@ class ResultFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val pointsPlayer = calculatePoints(UnoCards.deckEnemy)
-        val pointsEnemy = calculatePoints(UnoCards.deckPlayer)
-        result = ResultData("${pointsPlayer}","${pointsEnemy}")
+        val pointsPlayer = calculatePoints(UnoCards.deckPlayer)
+        val pointsEnemy = calculatePoints(UnoCards.deckEnemy)
+        val stringResult = ResultData("${pointsPlayer}","${pointsEnemy}")
 
         val emailIntent = Intent(Intent.ACTION_SEND)
         emailIntent.type = "text/plain"
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.intentEmail)
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, stringResult)
 
         val binding = DataBindingUtil.inflate<FragmentResultBinding>(inflater,
             R.layout.fragment_result,container,false)
+        result = ResultData("${pointsPlayer}","${pointsEnemy}")
         binding.resultData = result
 
         binding.shareResultButton?.setOnClickListener {
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "${R.string.intentPlayerPoints} $pointsPlayer" +
-                    "\n${R.string.intentBotPoints} ${pointsEnemy}\n")
-            startActivity(Intent.createChooser(emailIntent, R.string.intentSendEmail.toString()))
+            val stringPlayerPoints = context?.getString(R.string.intentPlayerPoints)
+            val stringBotPoints = context?.getString(R.string.intentBotPoints)
+            val stringSendEmail = context?.getString(R.string.intentSendEmail)
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "$stringPlayerPoints $pointsPlayer" +
+                    "\n$stringBotPoints ${pointsEnemy}\n")
+            startActivity(Intent.createChooser(emailIntent, stringSendEmail))
         }
         binding.playAgainButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_resultFragment_to_gameFragment)
@@ -54,7 +58,7 @@ class ResultFragment : Fragment() {
 
         for(element in deck){
             when(element){
-                is ValueCard -> sum = sum
+                is ValueCard -> sum += element.getCardValue
                 is FunctionCard ->
                     if(element.getFunctionText == "Reverse"||element.getFunctionText == "Skip"||element.getFunctionText == "Draw Two"){
                         sum += 20
