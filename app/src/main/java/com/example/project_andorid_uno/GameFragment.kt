@@ -66,8 +66,8 @@ class GameFragment : Fragment() {
             }
             if (cardColor != null) {
                 playedCards.playedCards.last().color = cardColor
-                val message = "test"
-                Toast.makeText(context, "Color chosen: $cardColor", Toast.LENGTH_SHORT).show()
+                val message = R.string.colorChosen
+                Toast.makeText(context, "$message $cardColor", Toast.LENGTH_SHORT).show()
                 playedCards.whoHasTurn = "Enemy"
                 adapter.checkAndPlayEnemy()
             }
@@ -129,7 +129,7 @@ class GameFragment : Fragment() {
     private fun setDrawCardButtonListener(playedCards: PlayedCards) {
         drawButton.setOnClickListener {
             if (UnoCards.playDeck.isEmpty()) {
-                val message = R.string.noCardsGameOver // make string later for different languages
+                val message = R.string.noCardsGameOver
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                 it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player draws all cards and game ends itself
             } else if (playedCards.cardDrawn == false) {
@@ -140,7 +140,7 @@ class GameFragment : Fragment() {
                 recyclerView.smoothScrollToPosition(UnoCards.deckPlayer.size - 1)
                 playedCards.cardDrawn = true
             }else{
-                val message = R.string.alreadyDrewCard // make string later for different languages
+                val message = R.string.alreadyDrewCard
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             }
         }

@@ -36,11 +36,13 @@
     <string name="winnerWinnerChickenDinner">You win!</string>
     <string name="noFit">These cards do not fit.</string>
     <string name="enemyWish">Enemy: I wish </string>
-    <string name="enemyDrewCard">Enemy: I had to drew a card</string>
-    <string name="youAreALoser">Enemy: You lose!</string>
+    <string name="youHaveLost">Enemy: You lose!</string>
     <string name="chooseColorTextView">Choose a color:</string>
-    <string name="redCheckBox">red</string>
-    <string name="greenCheckBox">green</string>
-    <string name="yellowCheckBox">yellow</string>
-    <string name="blueCheckBox">blue</string>
+    <string name="colorChosen">Color chosen:</string>
+    <string name="redColor">red</string>
+    <string name="greenColor">green</string>
+    <string name="blueColor">blue</string>
+    <string name="yellowColor">yellow</string>
+    <string name="specialColor">special Card</string>
+    <string name="enemyDreWCard">Enemy: I had to draw a card</string>
 </resources>

@@ -23,16 +23,16 @@ class ResultFragment : Fragment() {
 
         val emailIntent = Intent(Intent.ACTION_SEND)
         emailIntent.type = "text/plain"
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "UNO Result")
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.intentEmail)
 
         val binding = DataBindingUtil.inflate<FragmentResultBinding>(inflater,
             R.layout.fragment_result,container,false)
         binding.resultData = result
 
         binding.shareResultButton?.setOnClickListener {
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Player Points:${pointsPlayer}" +
-                    "\nBot Points: ${pointsEnemy}\n")
-            startActivity(Intent.createChooser(emailIntent, "Send email..."))
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "${R.string.intentPlayerPoints} $pointsPlayer" +
+                    "\n${R.string.intentBotPoints} ${pointsEnemy}\n")
+            startActivity(Intent.createChooser(emailIntent, R.string.intentSendEmail.toString()))
         }
         binding.playAgainButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_resultFragment_to_gameFragment)

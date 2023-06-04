@@ -5,10 +5,10 @@ enum class CardColor (){
 
     override fun toString() : String {
         return when(this) {
-            RED -> "red"
-            YELLOW -> "yellow"
-            GREEN -> "green"
-            BLUE -> "blue"
+            RED -> R.string.redColor.toString()
+            YELLOW -> R.string.yellowColor.toString()
+            GREEN -> R.string.greenColor.toString()
+            BLUE -> R.string.blueColor.toString()
             ANY -> "Any"
         }
     }

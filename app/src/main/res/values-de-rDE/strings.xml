@@ -36,11 +36,13 @@
     <string name="winnerWinnerChickenDinner">Du hast gewonnen!</string>
     <string name="noFit">"Die Karten passen nicht zueinander."</string>
     <string name="enemyWish">"Computer: Ich wünsche mir "</string>
-    <string name="enemyDrewCard">Computer: Ich musste eine Karte ziehen</string>
-    <string name="youAreALoser">Computer: Du hast verloren!</string>
+    <string name="youHaveLost">Computer: Du hast verloren!</string>
     <string name="chooseColorTextView">Wähle eine Farbe:</string>
-    <string name="redCheckBox">rot</string>
-    <string name="greenCheckBox">grün</string>
-    <string name="yellowCheckBox">gelb</string>
-    <string name="blueCheckBox">blau</string>
+    <string name="colorChosen">Gewählte Farbe:</string>
+    <string name="redColor">rot</string>
+    <string name="greenColor">grün</string>
+    <string name="blueColor">blau</string>
+    <string name="yellowColor">gelb</string>
+    <string name="specialColor">super Karte</string>
+    <string name="enemyDreWCard">Computer: Ich musste eine Karte ziehen</string>
 </resources>
