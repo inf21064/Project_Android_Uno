@@ -43,14 +43,16 @@ class RecyclerViewAdapter (val context: Context?,
     }
     fun checkAndPlayEnemy() {
         if(UnoCards.deckPlayer.isEmpty() || UnoCards.playDeck.isEmpty()){
-            tempView.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player wins with last card
+            // player wins with last card
+            validateNavigationToResultFragment()
         }else if(playedCards.whoHasTurn == "Enemy"){
             playedCards.enemyPlay()
             if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
                 coroutineScope.launch {
                     playedCards.playedSkipReverse = false
                     delay(2000)
-                    tempView.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player plays and enemy wins in his following turn
+                    // player plays and enemy wins in his following turn
+                    validateNavigationToResultFragment()
                 }
             }
             coroutineScope.launch {
@@ -67,7 +69,8 @@ class RecyclerViewAdapter (val context: Context?,
                     if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
                         playedCards.playedSkipReverse = false
                         delay(2000)
-                        tempView.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // enemy played skip turn card and then wins
+                        // enemy played skip turn card and then wins
+                        validateNavigationToResultFragment()
                     }
                 }
             }
@@ -97,6 +100,13 @@ class RecyclerViewAdapter (val context: Context?,
                 exitProcess(0)
         }
     }
+    private fun validateNavigationToResultFragment() {
+        try {
+            tempView.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+        } catch (e: IllegalArgumentException) {
+            println("Exception: $e")
+        }
+    }
 }
 fun getRandomValueCard(list: MutableList<PlayingCard>) : PlayingCard {
     while(true){
@@ -109,8 +119,9 @@ fun getRandomValueCard(list: MutableList<PlayingCard>) : PlayingCard {
     }
 }
 fun getRandomCard(list: MutableList<PlayingCard>) : PlayingCard {
-        val randomIndex = Random.nextInt(list.size);
-        val randomElement = list[randomIndex]
-        list.remove(randomElement)
-        return randomElement
-    }
+    val randomIndex = Random.nextInt(list.size);
+    val randomElement = list[randomIndex]
+    list.remove(randomElement)
+    return randomElement
+}
+
