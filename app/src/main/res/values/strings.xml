@@ -34,7 +34,7 @@
     <string name="noImageError">Can\'t select image.</string>
     <string name="checkForUno">You forgot to say Uno. 2 penalty cards!</string>
     <string name="winnerWinnerChickenDinner">You win!</string>
-    <string name="noFit">These cards do not fit.</string>
+    <string name="noFit">This card does not fit.</string>
     <string name="enemyWish">Enemy: I wish </string>
     <string name="youHaveLost">Enemy: You lose!</string>
     <string name="chooseColorTextView">Choose a color:</string>

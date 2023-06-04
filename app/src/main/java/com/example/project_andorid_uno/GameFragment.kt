@@ -103,7 +103,8 @@ class GameFragment : Fragment() {
             if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
                 playedCards.playedSkipReverse = false
                 delay(2000)
-                it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) //  player hits endturn button and enemy wins in his turn --> kein craash
+                //  player hits endturn button and enemy wins in his turn --> kein craash
+                validateNavigationToResultfragment()
             }
         }
             coroutineScope.launch {
@@ -117,7 +118,8 @@ class GameFragment : Fragment() {
                     if(UnoCards.deckEnemy.isEmpty() || UnoCards.playDeck.isEmpty()){
                         playedCards.playedSkipReverse = false
                         delay(2000)
-                        it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player hits endturn utton and enemy wins after a skip card
+                        // player hits endturnbutton and enemy wins after a skip card
+                        validateNavigationToResultfragment()
                     }
                 }
             }
@@ -131,7 +133,8 @@ class GameFragment : Fragment() {
             if (UnoCards.playDeck.isEmpty()) {
                 val message = R.string.noCardsGameOver
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                it.findNavController().navigate(R.id.action_gameFragment_to_resultFragment) // player draws all cards and game ends itself
+                // player draws all cards and game ends itself
+                validateNavigationToResultfragment()
             } else if (playedCards.cardDrawn == false) {
                 val tempCard = getRandomCard(UnoCards.playDeck)
                 UnoCards.deckPlayer.add(tempCard)
@@ -151,6 +154,14 @@ class GameFragment : Fragment() {
             val message = R.string.sayUnoButton
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             playedCards.saidUno = true
+        }
+    }
+
+    private fun validateNavigationToResultfragment() {
+        try {
+            endTurnButton.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+        } catch (e: IllegalArgumentException) {
+            println("Exception: $e")
         }
     }
 

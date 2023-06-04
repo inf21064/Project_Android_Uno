@@ -23,14 +23,14 @@ class ResultFragment : Fragment() {
 
         val emailIntent = Intent(Intent.ACTION_SEND)
         emailIntent.type = "text/plain"
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, stringResult)
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.intentEmail)
 
         val binding = DataBindingUtil.inflate<FragmentResultBinding>(inflater,
             R.layout.fragment_result,container,false)
         result = ResultData("${pointsPlayer}","${pointsEnemy}")
         binding.resultData = result
 
-        binding.shareResultButton?.setOnClickListener {
+        binding.shareResultButton.setOnClickListener {
             val stringPlayerPoints = context?.getString(R.string.intentPlayerPoints)
             val stringBotPoints = context?.getString(R.string.intentBotPoints)
             val stringSendEmail = context?.getString(R.string.intentSendEmail)
