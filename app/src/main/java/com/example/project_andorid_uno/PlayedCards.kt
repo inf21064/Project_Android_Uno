@@ -229,7 +229,7 @@ class PlayedCards(val startCard:PlayingCard,
             2 -> color=CardColor.GREEN
             3 -> color=CardColor.BLUE
         }
-        val message = R.string.colorChosen
+        val message = context?.getString(R.string.colorChosen)
         Toast.makeText(context, "$message $color", Toast.LENGTH_LONG).show()
         return color
     }

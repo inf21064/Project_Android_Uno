@@ -13,9 +13,15 @@ import com.example.project_andorid_uno.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var myNavHostFragment: DrawerLayout
+
+    companion object {
+        lateinit var instance: MainActivity
+            private set
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+        instance = this
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
 
         navController = findNavController(R.id.myNavHostFragment)

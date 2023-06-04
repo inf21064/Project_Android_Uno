@@ -66,7 +66,7 @@ class GameFragment : Fragment() {
             }
             if (cardColor != null) {
                 playedCards.playedCards.last().color = cardColor
-                val message = R.string.colorChosen
+                val message = getString(R.string.colorChosen)
                 Toast.makeText(context, "$message $cardColor", Toast.LENGTH_SHORT).show()
                 playedCards.whoHasTurn = "Enemy"
                 adapter.checkAndPlayEnemy()

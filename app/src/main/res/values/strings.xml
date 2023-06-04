@@ -38,11 +38,11 @@
     <string name="enemyWish">Enemy: I wish </string>
     <string name="youHaveLost">Enemy: You lose!</string>
     <string name="chooseColorTextView">Choose a color:</string>
-    <string name="colorChosen">Color chosen:</string>
     <string name="redColor">red</string>
     <string name="greenColor">green</string>
     <string name="blueColor">blue</string>
     <string name="yellowColor">yellow</string>
     <string name="specialColor">special Card</string>
     <string name="enemyDreWCard">Enemy: I had to draw a card</string>
+    <string name="colorChosen">Color chosen:</string>
 </resources>
